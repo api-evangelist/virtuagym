@@ -1,0 +1,425 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Virtuagym Public API (v1)",
+    "version": "1.0"
+  },
+  "items": [
+    {
+      "info": { "name": "Club Members", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "List club members.", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://api.virtuagym.com/api/v1/club/:club_id/member?api_key=&club_secret=&sync_from=0",
+            "params": [
+              { "name": "club_id", "value": "", "type": "path", "description": "The Virtuagym club ID." },
+              { "name": "api_key", "value": "", "type": "query", "description": "Club API key." },
+              { "name": "club_secret", "value": "", "type": "query", "description": "Club secret." },
+              { "name": "sync_from", "value": "0", "type": "query", "description": "Unix timestamp in milliseconds; return records edited since." }
+            ]
+          },
+          "docs": "Returns members of the club edited since sync_from. Supports from_id, email, external_id, rfid_tag, club_member_id, with, any_sub_club."
+        },
+        {
+          "info": { "name": "Create a club member.", "type": "http" },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.virtuagym.com/api/v1/club/:club_id/member?api_key=&club_secret=",
+            "params": [
+              { "name": "club_id", "value": "", "type": "path", "description": "The Virtuagym club ID." },
+              { "name": "api_key", "value": "", "type": "query", "description": "Club API key." },
+              { "name": "club_secret", "value": "", "type": "query", "description": "Club secret." }
+            ],
+            "body": { "type": "json", "data": "{\n  \"firstname\": \"Jane\",\n  \"lastname\": \"Doe\",\n  \"email\": \"jane@example.com\",\n  \"external_id\": \"ext-123\"\n}" }
+          },
+          "docs": "Creates a new member in the club."
+        },
+        {
+          "info": { "name": "Retrieve a club member.", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://api.virtuagym.com/api/v1/club/:club_id/member/:member_id?api_key=&club_secret=",
+            "params": [
+              { "name": "club_id", "value": "", "type": "path", "description": "The Virtuagym club ID." },
+              { "name": "member_id", "value": "", "type": "path", "description": "Internal Virtuagym club member ID." },
+              { "name": "api_key", "value": "", "type": "query", "description": "Club API key." },
+              { "name": "club_secret", "value": "", "type": "query", "description": "Club secret." }
+            ]
+          },
+          "docs": "Returns the details of a specific member by internal Virtuagym ID."
+        },
+        {
+          "info": { "name": "Update a club member.", "type": "http" },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.virtuagym.com/api/v1/club/:club_id/member/:member_id?api_key=&club_secret=",
+            "params": [
+              { "name": "club_id", "value": "", "type": "path", "description": "The Virtuagym club ID." },
+              { "name": "member_id", "value": "", "type": "path", "description": "Internal Virtuagym club member ID." },
+              { "name": "api_key", "value": "", "type": "query", "description": "Club API key." },
+              { "name": "club_secret", "value": "", "type": "query", "description": "Club secret." }
+            ],
+            "body": { "type": "json", "data": "{}" }
+          },
+          "docs": "Updates an existing member identified by internal Virtuagym ID."
+        },
+        {
+          "info": { "name": "Create or update a member by external ID.", "type": "http" },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.virtuagym.com/api/v1/club/:club_id/member/create_or_update?api_key=&club_secret=",
+            "params": [
+              { "name": "club_id", "value": "", "type": "path", "description": "The Virtuagym club ID." },
+              { "name": "api_key", "value": "", "type": "query", "description": "Club API key." },
+              { "name": "club_secret", "value": "", "type": "query", "description": "Club secret." }
+            ],
+            "body": { "type": "json", "data": "{\n  \"external_id\": \"ext-123\",\n  \"firstname\": \"Jane\",\n  \"lastname\": \"Doe\"\n}" }
+          },
+          "docs": "Creates or updates a member matched on external_id."
+        },
+        {
+          "info": { "name": "Activate a member's user profile.", "type": "http" },
+          "http": {
+            "method": "POST",
+            "url": "https://api.virtuagym.com/api/v1/club/:club_id/member/activate_user?api_key=&club_secret=",
+            "params": [
+              { "name": "club_id", "value": "", "type": "path", "description": "The Virtuagym club ID." },
+              { "name": "api_key", "value": "", "type": "query", "description": "Club API key." },
+              { "name": "club_secret", "value": "", "type": "query", "description": "Club secret." }
+            ],
+            "body": { "type": "json", "data": "{}" }
+          },
+          "docs": "Activates or connects a member's Virtuagym user profile."
+        }
+      ]
+    },
+    {
+      "info": { "name": "Club Employees", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "List club employees.", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://api.virtuagym.com/api/v1/club/:club_id/employee?api_key=&club_secret=&sync_from=0",
+            "params": [
+              { "name": "club_id", "value": "", "type": "path", "description": "The Virtuagym club ID." },
+              { "name": "api_key", "value": "", "type": "query", "description": "Club API key." },
+              { "name": "club_secret", "value": "", "type": "query", "description": "Club secret." },
+              { "name": "sync_from", "value": "0", "type": "query", "description": "Unix timestamp in milliseconds." }
+            ]
+          },
+          "docs": "Returns employees of the club edited since sync_from."
+        },
+        {
+          "info": { "name": "Create a club employee.", "type": "http" },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.virtuagym.com/api/v1/club/:club_id/employee?api_key=&club_secret=",
+            "params": [
+              { "name": "club_id", "value": "", "type": "path", "description": "The Virtuagym club ID." },
+              { "name": "api_key", "value": "", "type": "query", "description": "Club API key." },
+              { "name": "club_secret", "value": "", "type": "query", "description": "Club secret." }
+            ],
+            "body": { "type": "json", "data": "{}" }
+          },
+          "docs": "Creates and returns a new employee."
+        },
+        {
+          "info": { "name": "Retrieve a club employee.", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://api.virtuagym.com/api/v1/club/:club_id/employee/:employee_id?api_key=&club_secret=",
+            "params": [
+              { "name": "club_id", "value": "", "type": "path", "description": "The Virtuagym club ID." },
+              { "name": "employee_id", "value": "", "type": "path", "description": "Internal Virtuagym employee ID." },
+              { "name": "api_key", "value": "", "type": "query", "description": "Club API key." },
+              { "name": "club_secret", "value": "", "type": "query", "description": "Club secret." }
+            ]
+          },
+          "docs": "Returns a specific employee of the club."
+        },
+        {
+          "info": { "name": "Update a club employee.", "type": "http" },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.virtuagym.com/api/v1/club/:club_id/employee/:employee_id?api_key=&club_secret=",
+            "params": [
+              { "name": "club_id", "value": "", "type": "path", "description": "The Virtuagym club ID." },
+              { "name": "employee_id", "value": "", "type": "path", "description": "Internal Virtuagym employee ID." },
+              { "name": "api_key", "value": "", "type": "query", "description": "Club API key." },
+              { "name": "club_secret", "value": "", "type": "query", "description": "Club secret." }
+            ],
+            "body": { "type": "json", "data": "{}" }
+          },
+          "docs": "Updates and returns the employee."
+        }
+      ]
+    },
+    {
+      "info": { "name": "Memberships", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "List membership definitions.", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://api.virtuagym.com/api/v1/club/:club_id/membership/definition?api_key=&club_secret=&sync_from=0",
+            "params": [
+              { "name": "club_id", "value": "", "type": "path", "description": "The Virtuagym club ID." },
+              { "name": "api_key", "value": "", "type": "query", "description": "Club API key." },
+              { "name": "club_secret", "value": "", "type": "query", "description": "Club secret." },
+              { "name": "sync_from", "value": "0", "type": "query", "description": "Unix timestamp in milliseconds." }
+            ]
+          },
+          "docs": "Returns the membership definitions (plans) configured for the club."
+        },
+        {
+          "info": { "name": "List membership instances.", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://api.virtuagym.com/api/v1/club/:club_id/membership/instance?api_key=&club_secret=&sync_from=0",
+            "params": [
+              { "name": "club_id", "value": "", "type": "path", "description": "The Virtuagym club ID." },
+              { "name": "api_key", "value": "", "type": "query", "description": "Club API key." },
+              { "name": "club_secret", "value": "", "type": "query", "description": "Club secret." },
+              { "name": "sync_from", "value": "0", "type": "query", "description": "Unix timestamp in milliseconds." }
+            ]
+          },
+          "docs": "Returns membership instances (enrollments) for the club. Supports from_id, max_results, member_id."
+        }
+      ]
+    },
+    {
+      "info": { "name": "Billing", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "List member credits.", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://api.virtuagym.com/api/v1/club/:club_id/credit?api_key=&club_secret=&member_id=",
+            "params": [
+              { "name": "club_id", "value": "", "type": "path", "description": "The Virtuagym club ID." },
+              { "name": "api_key", "value": "", "type": "query", "description": "Club API key." },
+              { "name": "club_secret", "value": "", "type": "query", "description": "Club secret." },
+              { "name": "member_id", "value": "", "type": "query", "description": "The member whose credits to return." }
+            ]
+          },
+          "docs": "Returns the credit entries of a member."
+        },
+        {
+          "info": { "name": "Assign member credits.", "type": "http" },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.virtuagym.com/api/v1/club/:club_id/credit?api_key=&club_secret=",
+            "params": [
+              { "name": "club_id", "value": "", "type": "path", "description": "The Virtuagym club ID." },
+              { "name": "api_key", "value": "", "type": "query", "description": "Club API key." },
+              { "name": "club_secret", "value": "", "type": "query", "description": "Club secret." }
+            ],
+            "body": { "type": "json", "data": "{}" }
+          },
+          "docs": "Assigns or adds new credits to a member."
+        },
+        {
+          "info": { "name": "Create an invoice.", "type": "http" },
+          "http": {
+            "method": "POST",
+            "url": "https://api.virtuagym.com/api/v1/club/:club_id/invoices?api_key=&club_secret=",
+            "params": [
+              { "name": "club_id", "value": "", "type": "path", "description": "The Virtuagym club ID." },
+              { "name": "api_key", "value": "", "type": "query", "description": "Club API key." },
+              { "name": "club_secret", "value": "", "type": "query", "description": "Club secret." }
+            ],
+            "body": { "type": "json", "data": "{}" }
+          },
+          "docs": "Creates a new invoice resource for the club."
+        },
+        {
+          "info": { "name": "Retrieve an invoice.", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://api.virtuagym.com/api/v1/club/:club_id/invoices/:invoice_id?api_key=&club_secret=",
+            "params": [
+              { "name": "club_id", "value": "", "type": "path", "description": "The Virtuagym club ID." },
+              { "name": "invoice_id", "value": "", "type": "path", "description": "The invoice ID." },
+              { "name": "api_key", "value": "", "type": "query", "description": "Club API key." },
+              { "name": "club_secret", "value": "", "type": "query", "description": "Club secret." }
+            ]
+          },
+          "docs": "Returns the invoice resource that corresponds to invoice_id."
+        }
+      ]
+    },
+    {
+      "info": { "name": "Visits", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "List visits.", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://api.virtuagym.com/api/v1/club/:club_id/visits?api_key=&club_secret=&sync_from=0",
+            "params": [
+              { "name": "club_id", "value": "", "type": "path", "description": "The Virtuagym club ID." },
+              { "name": "api_key", "value": "", "type": "query", "description": "Club API key." },
+              { "name": "club_secret", "value": "", "type": "query", "description": "Club secret." },
+              { "name": "sync_from", "value": "0", "type": "query", "description": "Unix timestamp in milliseconds." }
+            ]
+          },
+          "docs": "Returns visit (check-in) records based on supplied queries."
+        },
+        {
+          "info": { "name": "Create a visit.", "type": "http" },
+          "http": {
+            "method": "POST",
+            "url": "https://api.virtuagym.com/api/v1/club/:club_id/visits?api_key=&club_secret=",
+            "params": [
+              { "name": "club_id", "value": "", "type": "path", "description": "The Virtuagym club ID." },
+              { "name": "api_key", "value": "", "type": "query", "description": "Club API key." },
+              { "name": "club_secret", "value": "", "type": "query", "description": "Club secret." }
+            ],
+            "body": { "type": "json", "data": "{\n  \"member_id\": 0\n}" }
+          },
+          "docs": "Creates a new visit (check-in) resource for a member."
+        },
+        {
+          "info": { "name": "Retrieve a visit.", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://api.virtuagym.com/api/v1/club/:club_id/visits/:visit_id?api_key=&club_secret=",
+            "params": [
+              { "name": "club_id", "value": "", "type": "path", "description": "The Virtuagym club ID." },
+              { "name": "visit_id", "value": "", "type": "path", "description": "The visit ID." },
+              { "name": "api_key", "value": "", "type": "query", "description": "Club API key." },
+              { "name": "club_secret", "value": "", "type": "query", "description": "Club secret." }
+            ]
+          },
+          "docs": "Returns the visit resource that corresponds to visit_id."
+        }
+      ]
+    },
+    {
+      "info": { "name": "Events", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "List club events.", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://api.virtuagym.com/api/v1/club/:club_id/events?api_key=&club_secret=&sync_from=0",
+            "params": [
+              { "name": "club_id", "value": "", "type": "path", "description": "The Virtuagym club ID." },
+              { "name": "api_key", "value": "", "type": "query", "description": "Club API key." },
+              { "name": "club_secret", "value": "", "type": "query", "description": "Club secret." },
+              { "name": "sync_from", "value": "0", "type": "query", "description": "Unix timestamp in milliseconds." }
+            ]
+          },
+          "docs": "Returns club events. Filterable by schedule_id, member_id, timestamp_start, timestamp_end."
+        },
+        {
+          "info": { "name": "Retrieve an event.", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://api.virtuagym.com/api/v1/club/:club_id/events/:event_id?api_key=&club_secret=",
+            "params": [
+              { "name": "club_id", "value": "", "type": "path", "description": "The Virtuagym club ID." },
+              { "name": "event_id", "value": "", "type": "path", "description": "The event ID." },
+              { "name": "api_key", "value": "", "type": "query", "description": "Club API key." },
+              { "name": "club_secret", "value": "", "type": "query", "description": "Club secret." }
+            ]
+          },
+          "docs": "Returns the event that corresponds to event_id."
+        },
+        {
+          "info": { "name": "List event participants.", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://api.virtuagym.com/api/v1/club/:club_id/eventparticipants?api_key=&club_secret=&event_id=",
+            "params": [
+              { "name": "club_id", "value": "", "type": "path", "description": "The Virtuagym club ID." },
+              { "name": "api_key", "value": "", "type": "query", "description": "Club API key." },
+              { "name": "club_secret", "value": "", "type": "query", "description": "Club secret." },
+              { "name": "event_id", "value": "", "type": "query", "description": "Filter by event." }
+            ]
+          },
+          "docs": "Returns participants (bookings) for events, filterable by event_id and sync_from."
+        },
+        {
+          "info": { "name": "Add an event participant.", "type": "http" },
+          "http": {
+            "method": "POST",
+            "url": "https://api.virtuagym.com/api/v1/club/:club_id/eventparticipants?api_key=&club_secret=",
+            "params": [
+              { "name": "club_id", "value": "", "type": "path", "description": "The Virtuagym club ID." },
+              { "name": "api_key", "value": "", "type": "query", "description": "Club API key." },
+              { "name": "club_secret", "value": "", "type": "query", "description": "Club secret." }
+            ],
+            "body": { "type": "json", "data": "{\n  \"event_id\": 0,\n  \"member_id\": 0\n}" }
+          },
+          "docs": "Books a member into an event (creates an event participant)."
+        },
+        {
+          "info": { "name": "Update an event participant.", "type": "http" },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.virtuagym.com/api/v1/club/:club_id/eventparticipants?api_key=&club_secret=",
+            "params": [
+              { "name": "club_id", "value": "", "type": "path", "description": "The Virtuagym club ID." },
+              { "name": "api_key", "value": "", "type": "query", "description": "Club API key." },
+              { "name": "club_secret", "value": "", "type": "query", "description": "Club secret." }
+            ],
+            "body": { "type": "json", "data": "{}" }
+          },
+          "docs": "Updates an existing event participant (booking)."
+        },
+        {
+          "info": { "name": "Retrieve an event participant.", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://api.virtuagym.com/api/v1/club/:club_id/eventparticipants/:event_participant_id?api_key=&club_secret=",
+            "params": [
+              { "name": "club_id", "value": "", "type": "path", "description": "The Virtuagym club ID." },
+              { "name": "event_participant_id", "value": "", "type": "path", "description": "The event participant ID." },
+              { "name": "api_key", "value": "", "type": "query", "description": "Club API key." },
+              { "name": "club_secret", "value": "", "type": "query", "description": "Club secret." }
+            ]
+          },
+          "docs": "Returns the event participant that corresponds to the given ID."
+        },
+        {
+          "info": { "name": "Remove an event participant.", "type": "http" },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.virtuagym.com/api/v1/club/:club_id/eventparticipants/:event_participant_id?api_key=&club_secret=",
+            "params": [
+              { "name": "club_id", "value": "", "type": "path", "description": "The Virtuagym club ID." },
+              { "name": "event_participant_id", "value": "", "type": "path", "description": "The event participant ID." },
+              { "name": "api_key", "value": "", "type": "query", "description": "Club API key." },
+              { "name": "club_secret", "value": "", "type": "query", "description": "Club secret." }
+            ]
+          },
+          "docs": "Cancels a booking by deleting the event participant."
+        }
+      ]
+    },
+    {
+      "info": { "name": "Coaching", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "Assign a workout to a member.", "type": "http" },
+          "http": {
+            "method": "POST",
+            "url": "https://api.virtuagym.com/api/v1/club/:club_id/member/workouts?api_key=&club_secret=",
+            "params": [
+              { "name": "club_id", "value": "", "type": "path", "description": "The Virtuagym club ID." },
+              { "name": "api_key", "value": "", "type": "query", "description": "Club API key." },
+              { "name": "club_secret", "value": "", "type": "query", "description": "Club secret." }
+            ],
+            "body": { "type": "json", "data": "{\n  \"plan_id\": 0,\n  \"user_id\": 0,\n  \"weekdays\": [1, 3, 5],\n  \"weeks\": 4,\n  \"start_date\": \"2026-07-13\"\n}" }
+          },
+          "docs": "Assigns a coaching workout / training plan to a club member."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

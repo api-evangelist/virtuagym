@@ -1,0 +1,118 @@
+aid: virtuagym
+name: Virtuagym
+review:
+  question: Does Virtuagym expose a documented public WebSocket API?
+  answer: false
+  date: '2026-07-12'
+  reviewer: API Evangelist
+  asyncapiSpecCreated: false
+  asyncapiScopeNote: |
+    No AsyncAPI document was authored. Virtuagym's documented Public API (v1) is
+    request/response REST over HTTPS, authenticated with api_key + club_secret
+    query parameters. No server-push transport - no WebSocket (wss://) and no
+    documented Server-Sent Events channel - is published on Virtuagym's own API.
+    Near-real-time integration is done by polling the list endpoints with a
+    sync_from millisecond timestamp (e.g. new members, new membership instances,
+    new visits/check-ins since the last check), not by a streaming socket. There
+    is therefore no WebSocket/event surface to model as AsyncAPI.
+findings:
+  summary: |
+    Virtuagym does not publish a documented public WebSocket API. Virtuagym is a
+    fitness / health club management SaaS. Its Public API v1 is club-scoped REST
+    under base https://api.virtuagym.com/api, with resources for members,
+    employees, membership definitions and instances, member credits, invoices,
+    visits (check-ins), events (classes) and event participants, and coaching
+    workout assignments. All v1 endpoints authenticate with an api_key plus a
+    club_secret passed as query-string parameters, over HTTPS only. Consumers
+    stay current by polling list endpoints with a sync_from (ms) timestamp and
+    from_id cursor - a pull model, not a WebSocket push. No ws:// or wss://
+    endpoint is documented anywhere in the Virtuagym API reference as of the
+    review date.
+  accessModel: |
+    Virtuagym's authoritative API reference is access-gated: a developer requests
+    access by emailing api@virtuagym.com with their GitHub username, and
+    provisions an api_key and club_secret in the Virtuagym portal under System
+    settings > Business info > Advanced. The endpoints, methods, and query
+    parameters captured here are grounded in Virtuagym's publicly mirrored API
+    wiki (github.com/anokabb/virtuagym-public-api) and confirmed against live host
+    probes; request/response bodies are modeled honestly with additive
+    (additionalProperties) schemas and should be reconciled once official access
+    is granted.
+  transports:
+    - protocol: REST
+      scheme: https
+      baseURL: https://api.virtuagym.com/api
+      documented: true
+      note: Club-scoped v1 Public API. api_key + club_secret query-parameter auth. HTTPS required.
+    - protocol: HTTP Polling
+      scheme: https
+      documented: true
+      note: Change tracking via list endpoints with sync_from (ms timestamp) and from_id cursor. Client-initiated polling, not server push.
+    - protocol: OAuth 2.0
+      scheme: https
+      documented: true
+      note: Separate authorization-code flow for end-user-context calls (authorize at www.virtuagym.com/oauth/authorize, token at virtuagym.com/oauth/token). Still REST, no socket.
+    - protocol: WebSocket
+      scheme: wss
+      documented: false
+      note: No WebSocket endpoint is documented anywhere in the Virtuagym Public API reference as of the review date.
+  endpointsConfirmedRest:
+    - GET    https://api.virtuagym.com/api/v1/club/{club_id}/member
+    - PUT    https://api.virtuagym.com/api/v1/club/{club_id}/member
+    - GET    https://api.virtuagym.com/api/v1/club/{club_id}/member/{member_id}
+    - PUT    https://api.virtuagym.com/api/v1/club/{club_id}/member/{member_id}
+    - PUT    https://api.virtuagym.com/api/v1/club/{club_id}/member/create_or_update
+    - POST   https://api.virtuagym.com/api/v1/club/{club_id}/member/activate_user
+    - GET    https://api.virtuagym.com/api/v1/club/{club_id}/employee
+    - PUT    https://api.virtuagym.com/api/v1/club/{club_id}/employee
+    - GET    https://api.virtuagym.com/api/v1/club/{club_id}/employee/{employee_id}
+    - PUT    https://api.virtuagym.com/api/v1/club/{club_id}/employee/{employee_id}
+    - GET    https://api.virtuagym.com/api/v1/club/{club_id}/membership/definition
+    - GET    https://api.virtuagym.com/api/v1/club/{club_id}/membership/instance
+    - GET    https://api.virtuagym.com/api/v1/club/{club_id}/credit
+    - PUT    https://api.virtuagym.com/api/v1/club/{club_id}/credit
+    - POST   https://api.virtuagym.com/api/v1/club/{club_id}/invoices
+    - GET    https://api.virtuagym.com/api/v1/club/{club_id}/invoices/{invoice_id}
+    - GET    https://api.virtuagym.com/api/v1/club/{club_id}/visits
+    - POST   https://api.virtuagym.com/api/v1/club/{club_id}/visits
+    - GET    https://api.virtuagym.com/api/v1/club/{club_id}/visits/{visit_id}
+    - GET    https://api.virtuagym.com/api/v1/club/{club_id}/events
+    - GET    https://api.virtuagym.com/api/v1/club/{club_id}/events/{event_id}
+    - GET    https://api.virtuagym.com/api/v1/club/{club_id}/eventparticipants
+    - POST   https://api.virtuagym.com/api/v1/club/{club_id}/eventparticipants
+    - PUT    https://api.virtuagym.com/api/v1/club/{club_id}/eventparticipants
+    - GET    https://api.virtuagym.com/api/v1/club/{club_id}/eventparticipants/{event_participant_id}
+    - DELETE https://api.virtuagym.com/api/v1/club/{club_id}/eventparticipants/{event_participant_id}
+    - POST   https://api.virtuagym.com/api/v1/club/{club_id}/member/workouts
+  endpointsModeledNote: |
+    Additional documented v1 resources exist that were not fully modeled in the
+    OpenAPI because exact paths / methods were not confirmable from public
+    sources: Club Member Bodymetrics and Club Member Notes. A deprecated v0 API
+    (Basic Auth) also exists covering user, activity, bodymetric, food plan,
+    group, and share resources. Reconcile these against the access-gated official
+    reference before treating them as complete.
+  sources:
+    - url: https://support.virtuagym.com/s/article/API-Link-To-Your-Website
+      type: Documentation
+      note: Official support article on linking the Virtuagym API; confirms api_key + club_secret, HTTPS, and the ~500 requests/hour cap.
+    - url: https://github.com/anokabb/virtuagym-public-api
+      type: APIReference
+      note: Public mirror of Virtuagym's official API wiki; source of v1 endpoint paths, methods, and query parameters (Authorization, Club-Members, Club-Visits, Club-Events, etc).
+    - url: https://github.com/anokabb/virtuagym-public-api/blob/main/documentation/Authorization.md
+      type: Documentation
+      note: Base URL https://api.virtuagym.com/api; api_key + club_secret query params for v1; Basic Auth for v0; OAuth 2.0 for user context.
+    - url: https://apitracker.io/a/virtuagym
+      type: Reference
+      note: Third-party catalog listing of Virtuagym API resources and the ~500 requests/hour limit.
+    - url: https://business.virtuagym.com/our-prices/
+      type: Pricing
+      note: Quote-based pricing routed through a form; no public flat rates.
+actions:
+  asyncapiPath: null
+  apisYmlUpdated: true
+  reason: |
+    No WebSocket or other server-push protocol surface exists on Virtuagym's own
+    API. The documented Public API is request/response REST (v1, api_key +
+    club_secret) plus an OAuth 2.0 flow for user context, and change tracking is
+    done by client-side polling with sync_from timestamps. No AsyncAPI document
+    was created because there is no ws:// / wss:// or SSE transport to model.

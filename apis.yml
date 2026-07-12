@@ -1,0 +1,201 @@
+aid: virtuagym
+url: https://raw.githubusercontent.com/api-evangelist/virtuagym/refs/heads/main/apis.yml
+name: Virtuagym
+kind: company
+description: >-
+  Virtuagym is a Netherlands-based fitness and health club management platform
+  that combines member management, membership and billing administration, class
+  and appointment scheduling, access control / check-ins, and digital coaching
+  (workouts, nutrition, and a branded member app) into one SaaS suite for gyms,
+  studios, personal trainers, and corporate wellness programs. Its Public API
+  (v1) is club-scoped and lets partners and businesses read and write members,
+  employees, membership definitions and instances, member credits, invoices,
+  visits (check-ins), events (classes) and participants, and coaching workout
+  assignments. v1 endpoints authenticate with an api_key plus a club_secret
+  passed as query parameters over HTTPS. Authoritative reference documentation is
+  access-gated (request via api@virtuagym.com); the endpoints modeled here are
+  grounded in Virtuagym's publicly mirrored API wiki and live host probes.
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+tags:
+- Fitness
+- Health Club Management
+- Gym Management
+- Coaching
+- Membership Management
+- Fitness Software
+- Wellness
+- Scheduling
+- SaaS
+created: '2026-07-12'
+modified: '2026-07-12'
+specificationVersion: '0.19'
+apis:
+- aid: virtuagym:virtuagym-club-members-api
+  name: Virtuagym Club Members API
+  tags:
+  - Members
+  - Membership Management
+  - CRM
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://support.virtuagym.com/s/article/API-Link-To-Your-Website
+  baseURL: https://api.virtuagym.com/api
+  properties:
+  - url: https://support.virtuagym.com/s/article/API-Link-To-Your-Website
+    type: Documentation
+  - url: https://github.com/anokabb/virtuagym-public-api/blob/main/documentation/v1/Club-Members.md
+    type: APIReference
+  - url: openapi/virtuagym-openapi.yml
+    type: OpenAPI
+  description: >-
+    List members edited since a sync point, retrieve a member by internal ID,
+    create members, update members, create-or-update by external_id, and activate
+    or connect a member's Virtuagym user profile. Supports lookup by email,
+    external_id, RFID tag, and club member ID.
+- aid: virtuagym:virtuagym-club-employees-api
+  name: Virtuagym Club Employees API
+  tags:
+  - Employees
+  - Staff
+  - Health Club Management
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://support.virtuagym.com/s/article/API-Link-To-Your-Website
+  baseURL: https://api.virtuagym.com/api
+  properties:
+  - url: https://support.virtuagym.com/s/article/API-Link-To-Your-Website
+    type: Documentation
+  - url: https://github.com/anokabb/virtuagym-public-api/blob/main/documentation/v1/Club-Employees.md
+    type: APIReference
+  - url: openapi/virtuagym-openapi.yml
+    type: OpenAPI
+  description: >-
+    List club employees edited since a sync point, retrieve a specific employee,
+    create a new employee, and update an existing one - the staff directory
+    behind a club's coaching, front-desk, and administration workflows.
+- aid: virtuagym:virtuagym-memberships-api
+  name: Virtuagym Memberships API
+  tags:
+  - Membership Management
+  - Plans
+  - Subscriptions
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://support.virtuagym.com/s/article/API-Link-To-Your-Website
+  baseURL: https://api.virtuagym.com/api
+  properties:
+  - url: https://support.virtuagym.com/s/article/API-Link-To-Your-Website
+    type: Documentation
+  - url: https://github.com/anokabb/virtuagym-public-api/blob/main/documentation/v1/Membership-Instances.md
+    type: APIReference
+  - url: openapi/virtuagym-openapi.yml
+    type: OpenAPI
+  description: >-
+    Read membership definitions (the plans / products a club sells) and
+    membership instances (a member's enrollment in a plan), with incremental sync
+    via sync_from and cursor paging via from_id. The backbone for syncing who is
+    a member and what they are subscribed to.
+- aid: virtuagym:virtuagym-billing-api
+  name: Virtuagym Billing API
+  tags:
+  - Billing
+  - Invoices
+  - Credits
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://support.virtuagym.com/s/article/API-Link-To-Your-Website
+  baseURL: https://api.virtuagym.com/api
+  properties:
+  - url: https://support.virtuagym.com/s/article/API-Link-To-Your-Website
+    type: Documentation
+  - url: https://github.com/anokabb/virtuagym-public-api/blob/main/documentation/v1/Club-Invoices.md
+    type: APIReference
+  - url: openapi/virtuagym-openapi.yml
+    type: OpenAPI
+  description: >-
+    Read and assign member credits (class / session balances) and create and
+    retrieve club invoices - the financial surface that pairs membership
+    administration with billing records.
+- aid: virtuagym:virtuagym-visits-api
+  name: Virtuagym Visits API
+  tags:
+  - Check-ins
+  - Access Control
+  - Attendance
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://support.virtuagym.com/s/article/API-Link-To-Your-Website
+  baseURL: https://api.virtuagym.com/api
+  properties:
+  - url: https://support.virtuagym.com/s/article/API-Link-To-Your-Website
+    type: Documentation
+  - url: https://github.com/anokabb/virtuagym-public-api/blob/main/documentation/v1/Club-Visits.md
+    type: APIReference
+  - url: openapi/virtuagym-openapi.yml
+    type: OpenAPI
+  description: >-
+    List visits (member check-ins) based on supplied queries such as new visits
+    since sync_from, retrieve a single visit, and create a visit - the
+    attendance and access-control record for a club, commonly fed from turnstiles
+    and front-desk check-in.
+- aid: virtuagym:virtuagym-events-api
+  name: Virtuagym Events API
+  tags:
+  - Scheduling
+  - Classes
+  - Bookings
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://support.virtuagym.com/s/article/API-Link-To-Your-Website
+  baseURL: https://api.virtuagym.com/api
+  properties:
+  - url: https://support.virtuagym.com/s/article/API-Link-To-Your-Website
+    type: Documentation
+  - url: https://github.com/anokabb/virtuagym-public-api/blob/main/documentation/v1/Club-Events.md
+    type: APIReference
+  - url: openapi/virtuagym-openapi.yml
+    type: OpenAPI
+  description: >-
+    List club events (scheduled classes / sessions) filtered by schedule, member,
+    and a start/end timestamp window, retrieve a single event, and manage event
+    participants - list, add (book), update, retrieve, and remove (cancel) a
+    member's booking.
+- aid: virtuagym:virtuagym-coaching-workouts-api
+  name: Virtuagym Coaching Workouts API
+  tags:
+  - Coaching
+  - Workouts
+  - Training
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://support.virtuagym.com/s/article/API-Link-To-Your-Website
+  baseURL: https://api.virtuagym.com/api
+  properties:
+  - url: https://support.virtuagym.com/s/article/API-Link-To-Your-Website
+    type: Documentation
+  - url: https://github.com/anokabb/virtuagym-public-api/blob/main/documentation/v1/Club-Member-Workouts.md
+    type: APIReference
+  - url: openapi/virtuagym-openapi.yml
+    type: OpenAPI
+  description: >-
+    Assign a coaching workout / training plan to a club member, specifying the
+    plan, the member, and scheduling details (weekdays, weeks, and start date) -
+    the digital-coaching surface that pushes structured training into a member's
+    Virtuagym app.
+common:
+- type: DomainSecurity
+  url: security/virtuagym-domain-security.yml
+- type: Authentication
+  url: authentication/virtuagym-authentication.yml
+- type: GitHubOrganization
+  url: https://github.com/virtuagym
+- type: LinkedIn
+  url: https://www.linkedin.com/company/virtuagym
+- type: Website
+  url: https://virtuagym.com
+- type: Documentation
+  url: https://support.virtuagym.com/s/article/API-Link-To-Your-Website
+- type: Plans
+  url: plans/virtuagym-plans-pricing.yml
+- type: RateLimits
+  url: rate-limits/virtuagym-rate-limits.yml
+- type: FinOps
+  url: finops/virtuagym-finops.yml
+- url: https://business.virtuagym.com/blog/
+  type: Blog
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

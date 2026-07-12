@@ -1,0 +1,37 @@
+generated: '2026-07-12'
+method: derived
+source: openapi/virtuagym-openapi.yml
+summary:
+  types:
+  - apiKey
+schemes:
+- name: apiKeyAuth
+  type: apiKey
+  in: query
+  parameterName: api_key
+  description: >-
+    The club's API key, provisioned in the Virtuagym portal under System
+    settings > Business info > Advanced. Passed as the `api_key` query-string
+    parameter on every v1 request.
+  sources:
+  - openapi/virtuagym-openapi.yml
+- name: clubSecretAuth
+  type: apiKey
+  in: query
+  parameterName: club_secret
+  description: >-
+    The club secret, provisioned alongside the API key in the Virtuagym portal.
+    Required in addition to the API key on all v1 endpoints, passed as the
+    `club_secret` query-string parameter.
+  sources:
+  - openapi/virtuagym-openapi.yml
+notes: >-
+  v1 endpoints require BOTH api_key and club_secret together, over HTTPS only
+  (insecure connections are rejected). Legacy v0 endpoints (deprecated) used HTTP
+  Basic Auth with a Virtuagym user's username/password. A separate OAuth 2.0
+  authorization-code flow (authorize at www.virtuagym.com/oauth/authorize, token
+  at virtuagym.com/oauth/token, using a client_id / client_secret) exists for
+  end-user-context calls, and the Lead API (V3) uses its own client_id /
+  client_secret - these are out of scope for the club-scoped v1 surface modeled
+  here. Authoritative auth documentation is access-gated; request access via
+  api@virtuagym.com.

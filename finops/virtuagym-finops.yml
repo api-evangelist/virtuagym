@@ -1,0 +1,98 @@
+specification: FinOps Framework
+specificationVersion: '1.0'
+schema: https://www.finops.org/framework/
+provider: Virtuagym
+providerId: virtuagym
+created: '2026-07-12'
+modified: '2026-07-12'
+reconciled: false
+tags:
+- Fitness
+- Health Club Management
+- Membership Management
+- SaaS
+- FinOps
+- Cost Management
+- FOCUS
+description: >-
+  FinOps view of Virtuagym spend. Virtuagym is a quote-based B2B SaaS
+  subscription whose cost scales primarily with the number of clients / members
+  and the module bundle selected (member management, scheduling, access control,
+  digital coaching, branded member app, PRO+ content). There is no usage-based
+  API meter - the Public API is included with the underlying club subscription
+  and gated by an hourly request cap rather than billed per call. From a cost
+  perspective, the dominant driver is the recurring platform subscription (billed
+  monthly or annually per the negotiated agreement), with add-on modules and a
+  branded app as the main upsell levers. Because pricing is quote-based, exact
+  per-member rates are not reconciled here.
+notes: >-
+  No per-API or per-call charges exist; API access is a feature of the platform
+  subscription. Verify the current subscription tiers, module add-ons, and any
+  per-member component with Virtuagym sales during reconciliation. Third-party
+  review estimates (roughly $120-150/mo small studio, $300-600/mo mid-size,
+  higher for enterprise) are indicative only, not official rates.
+sources:
+- https://business.virtuagym.com/our-prices/
+- https://virtuagym.com
+- https://support.virtuagym.com/s/article/API-Link-To-Your-Website
+- https://focus.finops.org/focus-specification/v1-3/
+alignedWith:
+  framework: FinOps Foundation Framework
+  frameworkUrl: https://www.finops.org/framework/
+  dataSpec: FOCUS
+  dataSpecVersion: '1.3'
+  dataSpecUrl: https://focus.finops.org/focus-specification/v1-3/
+publisherName: Virtuagym
+serviceCategory: Fitness and Health Club Management Software
+billingModel:
+  pricingCategory: Subscription-Based
+  billingFrequency: Monthly
+  billingCurrency: EUR
+  chargeCategories:
+  - Purchase
+  - Usage
+  - Adjustment
+focusColumns:
+  ServiceName: Virtuagym
+  ServiceCategory: Fitness and Health Club Management Software
+  ProviderName: Virtuagym
+  PublisherName: Virtuagym
+  InvoiceIssuerName: Virtuagym
+  BillingCurrency: EUR
+  ChargeCategory: Purchase
+  PricingCategory: Subscription-Based
+meters:
+- name: platform_subscription
+  description: Recurring Virtuagym platform subscription, priced by business size / member volume and module bundle.
+  unit: subscription
+  aggregation: sum
+  dimensions:
+  - account
+  - club
+  - tier
+- name: member_volume
+  description: Number of active members / clients, the primary scaling factor for the subscription quote.
+  unit: members
+  aggregation: max
+  dimensions:
+  - account
+  - club
+- name: module_addons
+  description: Optional paid modules (branded app, PRO+ content, access control, advanced integrations) added to the subscription.
+  unit: modules
+  aggregation: sum
+  dimensions:
+  - account
+  - club
+principles:
+- name: Visibility
+  description: Track the platform subscription and any module add-ons per club / location; there is no per-call API invoice to allocate.
+- name: Allocation
+  description: Map subscription and add-on cost to clubs / locations and to the member base each serves.
+- name: Optimization
+  description: Right-size the module bundle to what each location actually uses; consolidate locations under one agreement where volume discounts apply; use incremental API sync to stay within the included request cap rather than paying for higher tiers you do not need.
+- name: Accountability
+  description: Assign an owner per club / location to review the subscription and add-ons against active member counts at renewal.
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

@@ -1,0 +1,57 @@
+specification: API Commons Rate Limits
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/RateLimits
+provider: Virtuagym
+providerId: virtuagym
+created: '2026-07-12'
+modified: '2026-07-12'
+reconciled: false
+tags:
+- Fitness
+- Health Club Management
+- SaaS
+- Rate Limiting
+- Quotas
+description: >-
+  Virtuagym applies an account-level request cap on the Public API. Published
+  guidance and integration references indicate requests are limited to roughly
+  500 per hour, and all Public API calls must be made over HTTPS (insecure
+  connections are rejected). When a client exceeds the limit the API returns a
+  custom throttling status (documented status code 421, "you tried to access the
+  server too many times - wait a few minutes"), rather than the more common 429.
+  Large data pulls are designed to be done incrementally: list endpoints accept a
+  sync_from millisecond timestamp (return only records edited since a point) and
+  a from_id cursor, plus max_results paging, which keeps sync workloads under the
+  hourly cap.
+notes: >-
+  The 500-requests-per-hour figure comes from Virtuagym support / integration
+  documentation and is not restated as a hard SLA; confirm the exact current
+  limit and throttling status code against the access-gated official reference
+  (request via api@virtuagym.com) during reconciliation.
+sources:
+- https://support.virtuagym.com/s/article/API-Link-To-Your-Website
+- https://github.com/anokabb/virtuagym-public-api/blob/main/documentation/Status-and-Error-codes.md
+- https://apitracker.io/a/virtuagym
+responseCodes:
+  throttled: 421
+limits:
+- name: Public API Requests
+  scope: account
+  metric: requests
+  limit: ~500 per hour
+  notes: Reported hourly request cap across the Public API for a club account.
+- name: Incremental Sync Window
+  scope: endpoint
+  metric: records
+  limit: paged
+  notes: List endpoints use sync_from (ms timestamp), from_id cursor, and max_results to page large result sets within the hourly cap.
+policies:
+- name: HTTPS Required
+  description: All Public API requests must use HTTPS; insecure HTTP connections are rejected.
+- name: Throttling
+  description: Exceeding the request cap returns status 421 (too many requests); back off and retry after a short wait.
+- name: Backoff Strategy
+  description: Clients should implement exponential backoff with jitter on throttling responses and prefer incremental sync (sync_from / from_id) over full re-pulls.
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

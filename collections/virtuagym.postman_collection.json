@@ -1,0 +1,305 @@
+{
+  "info": {
+    "name": "Virtuagym Public API (v1)",
+    "description": "Club-scoped Virtuagym Public API v1 for fitness and health club management: members, employees, memberships, credits, invoices, visits (check-ins), events and participants, and coaching workout assignments. Base URL: https://api.virtuagym.com/api. All v1 requests authenticate with api_key and club_secret query parameters over HTTPS. Authoritative reference is access-gated (request via api@virtuagym.com); endpoints modeled from the publicly mirrored Virtuagym API wiki.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "https://api.virtuagym.com/api", "type": "string" },
+    { "key": "apiKey", "value": "", "type": "string" },
+    { "key": "clubSecret", "value": "", "type": "string" },
+    { "key": "clubId", "value": "", "type": "string" }
+  ],
+  "item": [
+    {
+      "name": "Club Members",
+      "item": [
+        {
+          "name": "List club members",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/v1/club/{{clubId}}/member?api_key={{apiKey}}&club_secret={{clubSecret}}&sync_from=0", "host": ["{{baseUrl}}"], "path": ["v1", "club", "{{clubId}}", "member"], "query": [{ "key": "api_key", "value": "{{apiKey}}" }, { "key": "club_secret", "value": "{{clubSecret}}" }, { "key": "sync_from", "value": "0" }] },
+            "description": "Returns members of the club edited since sync_from (ms). Supports from_id, email, external_id, rfid_tag, club_member_id, with, any_sub_club."
+          }
+        },
+        {
+          "name": "Create a club member",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"firstname\": \"Jane\",\n  \"lastname\": \"Doe\",\n  \"email\": \"jane@example.com\",\n  \"external_id\": \"ext-123\"\n}" },
+            "url": { "raw": "{{baseUrl}}/v1/club/{{clubId}}/member?api_key={{apiKey}}&club_secret={{clubSecret}}", "host": ["{{baseUrl}}"], "path": ["v1", "club", "{{clubId}}", "member"], "query": [{ "key": "api_key", "value": "{{apiKey}}" }, { "key": "club_secret", "value": "{{clubSecret}}" }] },
+            "description": "Creates a new member in the club."
+          }
+        },
+        {
+          "name": "Retrieve a club member",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/v1/club/{{clubId}}/member/:member_id?api_key={{apiKey}}&club_secret={{clubSecret}}", "host": ["{{baseUrl}}"], "path": ["v1", "club", "{{clubId}}", "member", ":member_id"], "query": [{ "key": "api_key", "value": "{{apiKey}}" }, { "key": "club_secret", "value": "{{clubSecret}}" }], "variable": [{ "key": "member_id", "value": "" }] },
+            "description": "Returns the details of a specific member by internal Virtuagym ID."
+          }
+        },
+        {
+          "name": "Update a club member",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{}" },
+            "url": { "raw": "{{baseUrl}}/v1/club/{{clubId}}/member/:member_id?api_key={{apiKey}}&club_secret={{clubSecret}}", "host": ["{{baseUrl}}"], "path": ["v1", "club", "{{clubId}}", "member", ":member_id"], "query": [{ "key": "api_key", "value": "{{apiKey}}" }, { "key": "club_secret", "value": "{{clubSecret}}" }], "variable": [{ "key": "member_id", "value": "" }] },
+            "description": "Updates an existing member identified by internal Virtuagym ID."
+          }
+        },
+        {
+          "name": "Create or update a member by external ID",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"external_id\": \"ext-123\",\n  \"firstname\": \"Jane\",\n  \"lastname\": \"Doe\"\n}" },
+            "url": { "raw": "{{baseUrl}}/v1/club/{{clubId}}/member/create_or_update?api_key={{apiKey}}&club_secret={{clubSecret}}", "host": ["{{baseUrl}}"], "path": ["v1", "club", "{{clubId}}", "member", "create_or_update"], "query": [{ "key": "api_key", "value": "{{apiKey}}" }, { "key": "club_secret", "value": "{{clubSecret}}" }] },
+            "description": "Creates or updates a member matched on external_id."
+          }
+        },
+        {
+          "name": "Activate a member's user profile",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{}" },
+            "url": { "raw": "{{baseUrl}}/v1/club/{{clubId}}/member/activate_user?api_key={{apiKey}}&club_secret={{clubSecret}}", "host": ["{{baseUrl}}"], "path": ["v1", "club", "{{clubId}}", "member", "activate_user"], "query": [{ "key": "api_key", "value": "{{apiKey}}" }, { "key": "club_secret", "value": "{{clubSecret}}" }] },
+            "description": "Activates or connects a member's Virtuagym user profile."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Club Employees",
+      "item": [
+        {
+          "name": "List club employees",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/v1/club/{{clubId}}/employee?api_key={{apiKey}}&club_secret={{clubSecret}}&sync_from=0", "host": ["{{baseUrl}}"], "path": ["v1", "club", "{{clubId}}", "employee"], "query": [{ "key": "api_key", "value": "{{apiKey}}" }, { "key": "club_secret", "value": "{{clubSecret}}" }, { "key": "sync_from", "value": "0" }] },
+            "description": "Returns employees of the club edited since sync_from."
+          }
+        },
+        {
+          "name": "Create a club employee",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{}" },
+            "url": { "raw": "{{baseUrl}}/v1/club/{{clubId}}/employee?api_key={{apiKey}}&club_secret={{clubSecret}}", "host": ["{{baseUrl}}"], "path": ["v1", "club", "{{clubId}}", "employee"], "query": [{ "key": "api_key", "value": "{{apiKey}}" }, { "key": "club_secret", "value": "{{clubSecret}}" }] },
+            "description": "Creates and returns a new employee."
+          }
+        },
+        {
+          "name": "Retrieve a club employee",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/v1/club/{{clubId}}/employee/:employee_id?api_key={{apiKey}}&club_secret={{clubSecret}}", "host": ["{{baseUrl}}"], "path": ["v1", "club", "{{clubId}}", "employee", ":employee_id"], "query": [{ "key": "api_key", "value": "{{apiKey}}" }, { "key": "club_secret", "value": "{{clubSecret}}" }], "variable": [{ "key": "employee_id", "value": "" }] },
+            "description": "Returns a specific employee of the club."
+          }
+        },
+        {
+          "name": "Update a club employee",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{}" },
+            "url": { "raw": "{{baseUrl}}/v1/club/{{clubId}}/employee/:employee_id?api_key={{apiKey}}&club_secret={{clubSecret}}", "host": ["{{baseUrl}}"], "path": ["v1", "club", "{{clubId}}", "employee", ":employee_id"], "query": [{ "key": "api_key", "value": "{{apiKey}}" }, { "key": "club_secret", "value": "{{clubSecret}}" }], "variable": [{ "key": "employee_id", "value": "" }] },
+            "description": "Updates and returns the employee."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Memberships",
+      "item": [
+        {
+          "name": "List membership definitions",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/v1/club/{{clubId}}/membership/definition?api_key={{apiKey}}&club_secret={{clubSecret}}&sync_from=0", "host": ["{{baseUrl}}"], "path": ["v1", "club", "{{clubId}}", "membership", "definition"], "query": [{ "key": "api_key", "value": "{{apiKey}}" }, { "key": "club_secret", "value": "{{clubSecret}}" }, { "key": "sync_from", "value": "0" }] },
+            "description": "Returns the membership definitions (plans) configured for the club."
+          }
+        },
+        {
+          "name": "List membership instances",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/v1/club/{{clubId}}/membership/instance?api_key={{apiKey}}&club_secret={{clubSecret}}&sync_from=0", "host": ["{{baseUrl}}"], "path": ["v1", "club", "{{clubId}}", "membership", "instance"], "query": [{ "key": "api_key", "value": "{{apiKey}}" }, { "key": "club_secret", "value": "{{clubSecret}}" }, { "key": "sync_from", "value": "0" }] },
+            "description": "Returns membership instances (enrollments) for the club. Supports from_id, max_results, member_id."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Billing",
+      "item": [
+        {
+          "name": "List member credits",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/v1/club/{{clubId}}/credit?api_key={{apiKey}}&club_secret={{clubSecret}}&member_id=", "host": ["{{baseUrl}}"], "path": ["v1", "club", "{{clubId}}", "credit"], "query": [{ "key": "api_key", "value": "{{apiKey}}" }, { "key": "club_secret", "value": "{{clubSecret}}" }, { "key": "member_id", "value": "" }] },
+            "description": "Returns the credit entries of a member."
+          }
+        },
+        {
+          "name": "Assign member credits",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{}" },
+            "url": { "raw": "{{baseUrl}}/v1/club/{{clubId}}/credit?api_key={{apiKey}}&club_secret={{clubSecret}}", "host": ["{{baseUrl}}"], "path": ["v1", "club", "{{clubId}}", "credit"], "query": [{ "key": "api_key", "value": "{{apiKey}}" }, { "key": "club_secret", "value": "{{clubSecret}}" }] },
+            "description": "Assigns or adds new credits to a member."
+          }
+        },
+        {
+          "name": "Create an invoice",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{}" },
+            "url": { "raw": "{{baseUrl}}/v1/club/{{clubId}}/invoices?api_key={{apiKey}}&club_secret={{clubSecret}}", "host": ["{{baseUrl}}"], "path": ["v1", "club", "{{clubId}}", "invoices"], "query": [{ "key": "api_key", "value": "{{apiKey}}" }, { "key": "club_secret", "value": "{{clubSecret}}" }] },
+            "description": "Creates a new invoice resource for the club."
+          }
+        },
+        {
+          "name": "Retrieve an invoice",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/v1/club/{{clubId}}/invoices/:invoice_id?api_key={{apiKey}}&club_secret={{clubSecret}}", "host": ["{{baseUrl}}"], "path": ["v1", "club", "{{clubId}}", "invoices", ":invoice_id"], "query": [{ "key": "api_key", "value": "{{apiKey}}" }, { "key": "club_secret", "value": "{{clubSecret}}" }], "variable": [{ "key": "invoice_id", "value": "" }] },
+            "description": "Returns the invoice resource that corresponds to invoice_id."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Visits",
+      "item": [
+        {
+          "name": "List visits",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/v1/club/{{clubId}}/visits?api_key={{apiKey}}&club_secret={{clubSecret}}&sync_from=0", "host": ["{{baseUrl}}"], "path": ["v1", "club", "{{clubId}}", "visits"], "query": [{ "key": "api_key", "value": "{{apiKey}}" }, { "key": "club_secret", "value": "{{clubSecret}}" }, { "key": "sync_from", "value": "0" }] },
+            "description": "Returns visit (check-in) records based on supplied queries."
+          }
+        },
+        {
+          "name": "Create a visit",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"member_id\": 0\n}" },
+            "url": { "raw": "{{baseUrl}}/v1/club/{{clubId}}/visits?api_key={{apiKey}}&club_secret={{clubSecret}}", "host": ["{{baseUrl}}"], "path": ["v1", "club", "{{clubId}}", "visits"], "query": [{ "key": "api_key", "value": "{{apiKey}}" }, { "key": "club_secret", "value": "{{clubSecret}}" }] },
+            "description": "Creates a new visit (check-in) resource for a member."
+          }
+        },
+        {
+          "name": "Retrieve a visit",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/v1/club/{{clubId}}/visits/:visit_id?api_key={{apiKey}}&club_secret={{clubSecret}}", "host": ["{{baseUrl}}"], "path": ["v1", "club", "{{clubId}}", "visits", ":visit_id"], "query": [{ "key": "api_key", "value": "{{apiKey}}" }, { "key": "club_secret", "value": "{{clubSecret}}" }], "variable": [{ "key": "visit_id", "value": "" }] },
+            "description": "Returns the visit resource that corresponds to visit_id."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Events",
+      "item": [
+        {
+          "name": "List club events",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/v1/club/{{clubId}}/events?api_key={{apiKey}}&club_secret={{clubSecret}}&sync_from=0", "host": ["{{baseUrl}}"], "path": ["v1", "club", "{{clubId}}", "events"], "query": [{ "key": "api_key", "value": "{{apiKey}}" }, { "key": "club_secret", "value": "{{clubSecret}}" }, { "key": "sync_from", "value": "0" }] },
+            "description": "Returns club events. Filterable by schedule_id, member_id, timestamp_start, timestamp_end."
+          }
+        },
+        {
+          "name": "Retrieve an event",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/v1/club/{{clubId}}/events/:event_id?api_key={{apiKey}}&club_secret={{clubSecret}}", "host": ["{{baseUrl}}"], "path": ["v1", "club", "{{clubId}}", "events", ":event_id"], "query": [{ "key": "api_key", "value": "{{apiKey}}" }, { "key": "club_secret", "value": "{{clubSecret}}" }], "variable": [{ "key": "event_id", "value": "" }] },
+            "description": "Returns the event that corresponds to event_id."
+          }
+        },
+        {
+          "name": "List event participants",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/v1/club/{{clubId}}/eventparticipants?api_key={{apiKey}}&club_secret={{clubSecret}}&event_id=", "host": ["{{baseUrl}}"], "path": ["v1", "club", "{{clubId}}", "eventparticipants"], "query": [{ "key": "api_key", "value": "{{apiKey}}" }, { "key": "club_secret", "value": "{{clubSecret}}" }, { "key": "event_id", "value": "" }] },
+            "description": "Returns participants (bookings) for events, filterable by event_id and sync_from."
+          }
+        },
+        {
+          "name": "Add an event participant",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"event_id\": 0,\n  \"member_id\": 0\n}" },
+            "url": { "raw": "{{baseUrl}}/v1/club/{{clubId}}/eventparticipants?api_key={{apiKey}}&club_secret={{clubSecret}}", "host": ["{{baseUrl}}"], "path": ["v1", "club", "{{clubId}}", "eventparticipants"], "query": [{ "key": "api_key", "value": "{{apiKey}}" }, { "key": "club_secret", "value": "{{clubSecret}}" }] },
+            "description": "Books a member into an event (creates an event participant)."
+          }
+        },
+        {
+          "name": "Update an event participant",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{}" },
+            "url": { "raw": "{{baseUrl}}/v1/club/{{clubId}}/eventparticipants?api_key={{apiKey}}&club_secret={{clubSecret}}", "host": ["{{baseUrl}}"], "path": ["v1", "club", "{{clubId}}", "eventparticipants"], "query": [{ "key": "api_key", "value": "{{apiKey}}" }, { "key": "club_secret", "value": "{{clubSecret}}" }] },
+            "description": "Updates an existing event participant (booking)."
+          }
+        },
+        {
+          "name": "Retrieve an event participant",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/v1/club/{{clubId}}/eventparticipants/:event_participant_id?api_key={{apiKey}}&club_secret={{clubSecret}}", "host": ["{{baseUrl}}"], "path": ["v1", "club", "{{clubId}}", "eventparticipants", ":event_participant_id"], "query": [{ "key": "api_key", "value": "{{apiKey}}" }, { "key": "club_secret", "value": "{{clubSecret}}" }], "variable": [{ "key": "event_participant_id", "value": "" }] },
+            "description": "Returns the event participant that corresponds to the given ID."
+          }
+        },
+        {
+          "name": "Remove an event participant",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/v1/club/{{clubId}}/eventparticipants/:event_participant_id?api_key={{apiKey}}&club_secret={{clubSecret}}", "host": ["{{baseUrl}}"], "path": ["v1", "club", "{{clubId}}", "eventparticipants", ":event_participant_id"], "query": [{ "key": "api_key", "value": "{{apiKey}}" }, { "key": "club_secret", "value": "{{clubSecret}}" }], "variable": [{ "key": "event_participant_id", "value": "" }] },
+            "description": "Cancels a booking by deleting the event participant."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Coaching",
+      "item": [
+        {
+          "name": "Assign a workout to a member",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"plan_id\": 0,\n  \"user_id\": 0,\n  \"weekdays\": [1, 3, 5],\n  \"weeks\": 4,\n  \"start_date\": \"2026-07-13\"\n}" },
+            "url": { "raw": "{{baseUrl}}/v1/club/{{clubId}}/member/workouts?api_key={{apiKey}}&club_secret={{clubSecret}}", "host": ["{{baseUrl}}"], "path": ["v1", "club", "{{clubId}}", "member", "workouts"], "query": [{ "key": "api_key", "value": "{{apiKey}}" }, { "key": "club_secret", "value": "{{clubSecret}}" }] },
+            "description": "Assigns a coaching workout / training plan to a club member."
+          }
+        }
+      ]
+    }
+  ]
+}

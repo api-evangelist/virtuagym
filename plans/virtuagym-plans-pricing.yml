@@ -1,0 +1,115 @@
+specification: API Commons Plans
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/Plans
+provider: Virtuagym
+providerId: virtuagym
+created: '2026-07-12'
+modified: '2026-07-12'
+reconciled: false
+tags:
+- Fitness
+- Health Club Management
+- Membership Management
+- SaaS
+- Plans
+description: >-
+  Virtuagym is sold as a quote-based B2B SaaS subscription rather than at
+  publicly posted flat rates. The pricing page routes to a quote form that asks
+  for business type, number of clients / members, and which modules you want
+  (member management, scheduling, access control, digital coaching, a branded
+  member app, PRO+ content, and more). Effective cost scales primarily with the
+  size of the member base and the selected module bundle, so the model is best
+  understood as per-member / per-business-size SaaS. Public review aggregators
+  report a practical entry point around $120-150 per month for a small studio,
+  roughly $300-600 per month for mid-size clubs, and materially higher for
+  enterprise / multi-location deployments; there is no public self-serve free
+  trial and a sales conversation precedes real numbers. The Public API is
+  included with a Virtuagym subscription (you provision api_key and club_secret
+  in the portal); it is not sold or metered as a standalone product. Exact rates,
+  tier names, and per-member pricing are not reconciled here.
+notes: >-
+  Figures above are third-party review-aggregator estimates, not official
+  Virtuagym list prices. Verify the current module bundles and quote on
+  business.virtuagym.com/our-prices during reconciliation. No public per-API or
+  per-call price exists - API access rides on the underlying club subscription.
+sources:
+- https://business.virtuagym.com/our-prices/
+- https://virtuagym.com
+- https://support.virtuagym.com/s/article/API-Link-To-Your-Website
+- https://www.capterra.com/p/132191/Virtuagym/
+plans:
+- id: virtuagym-studio
+  name: Studio / Small Business
+  type: subscription
+  description: >-
+    Entry tier for small studios and independent trainers - core member
+    management, scheduling, and coaching for a small client base. Quoted, not
+    self-serve. Review aggregators report a practical entry point around
+    $120-150 per month.
+  entries:
+  - label: Monthly Subscription
+    name: studio_monthly
+    type: flat
+    metric: subscription
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: quote-based (reported ~$120-150/mo entry point)
+    userMultiplied: false
+  elements:
+  - name: Member Management
+  - name: Scheduling
+  - name: Digital Coaching
+  - name: Public API Access
+- id: virtuagym-club
+  name: Club / Mid-Size
+  type: subscription
+  description: >-
+    Growth tier for single- and multi-room clubs adding access control,
+    membership billing, and larger member volumes. Review aggregators report
+    roughly $300-600 per month depending on client count and modules.
+  entries:
+  - label: Monthly Subscription
+    name: club_monthly
+    type: flat
+    metric: subscription
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: quote-based (reported ~$300-600/mo)
+    userMultiplied: false
+  elements:
+  - name: Member Management
+  - name: Membership Billing and Invoices
+  - name: Access Control and Check-ins
+  - name: Scheduling and Events
+  - name: Public API Access
+- id: virtuagym-enterprise
+  name: Enterprise / Multi-Location
+  type: enterprise
+  description: >-
+    Custom tier for large, multi-location operators and franchises, corporate
+    wellness, and businesses needing a branded member app, PRO+ content,
+    advanced integrations, and negotiated terms. Contact Virtuagym sales.
+  entries:
+  - label: Enterprise Agreement
+    name: enterprise
+    type: flat
+    metric: contract
+    limit: -1
+    timeFrame: year
+    geo: global
+    unit: 1
+    price: contact sales
+    userMultiplied: false
+  elements:
+  - name: Branded Member App
+  - name: PRO+ Content
+  - name: Multi-Location Management
+  - name: Advanced Integrations and API
+  - name: Custom Terms and Support
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com
