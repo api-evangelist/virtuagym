@@ -176,6 +176,8 @@ apis:
     the digital-coaching surface that pushes structured training into a member's
     Virtuagym app.
 common:
+- type: AgenticAccess
+  url: agentic-access/virtuagym-agentic-access.yml
 - type: DomainSecurity
   url: security/virtuagym-domain-security.yml
 - type: Authentication
