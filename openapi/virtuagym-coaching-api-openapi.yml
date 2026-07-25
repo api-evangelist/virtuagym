@@ -1,0 +1,130 @@
+openapi: 3.0.3
+info:
+  title: Virtuagym Public API (v1) Billing Coaching API
+  description: 'The Virtuagym Public API lets fitness businesses, health clubs, and partner integrations read and write club data programmatically - members, staff (employees), membership definitions and instances, member credits, invoices, visits (check-ins), events (classes) and their participants, and coaching workout assignments. This document models the current v1 club-scoped surface.
+
+    Access model: Virtuagym''s authoritative reference documentation is access-gated - you request access by emailing api@virtuagym.com with your GitHub username, and you provision an API key and Club secret in the Virtuagym portal under System settings > Business info > Advanced. The endpoints, methods, and query parameters below are grounded in Virtuagym''s publicly mirrored API wiki and in live host probes; request/response bodies are modeled honestly and marked with additionalProperties where the full field set is not published. Treat schema shapes as a starting point and reconcile against the official reference once access is granted.
+
+    Authentication: v1 endpoints authenticate with an `api_key` and a `club_secret`, both passed as query-string parameters, over HTTPS only. (Legacy v0 endpoints used HTTP Basic Auth and are deprecated; a separate OAuth 2.0 flow exists for end-user-context calls and is out of scope for the club-scoped v1 surface modeled here.)'
+  version: '1.0'
+  contact:
+    name: Virtuagym API Team
+    url: https://support.virtuagym.com/s/article/API-Link-To-Your-Website
+    email: api@virtuagym.com
+  license:
+    name: Proprietary
+    url: https://virtuagym.com
+servers:
+- url: https://api.virtuagym.com/api
+  description: Virtuagym Public API
+security:
+- apiKeyAuth: []
+  clubSecretAuth: []
+tags:
+- name: Coaching
+  description: Assign coaching workout plans to members.
+paths:
+  /v1/club/{club_id}/member/workouts:
+    parameters:
+    - $ref: '#/components/parameters/ClubId'
+    post:
+      operationId: assignMemberWorkout
+      tags:
+      - Coaching
+      summary: Assign a workout to a member
+      description: Assigns a coaching workout / training plan to a club member. The body specifies the plan and the member plus scheduling details (weekdays, weeks, start date).
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WorkoutAssignmentInput'
+      responses:
+        '200':
+          description: The workout assignment result.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+components:
+  schemas:
+    GenericResponse:
+      type: object
+      description: Standard Virtuagym envelope. The `result` object carries the resource; exact fields depend on the resource and are additive.
+      properties:
+        statusMessage:
+          type: string
+        statistics:
+          $ref: '#/components/schemas/Statistics'
+        result:
+          type: object
+          additionalProperties: true
+      additionalProperties: true
+    WorkoutAssignmentInput:
+      type: object
+      properties:
+        plan_id:
+          type: integer
+          description: The workout / training plan to assign.
+        user_id:
+          type: integer
+          description: The member (user) to assign the plan to.
+        weekdays:
+          type: array
+          items:
+            type: integer
+        weeks:
+          type: integer
+        start_date:
+          type: string
+      additionalProperties: true
+    Statistics:
+      type: object
+      description: Response metadata Virtuagym returns alongside result sets.
+      properties:
+        resultset_size:
+          type: integer
+        total_results:
+          type: integer
+        time_ms:
+          type: integer
+      additionalProperties: true
+    Error:
+      type: object
+      properties:
+        status:
+          type: integer
+        statusMessage:
+          type: string
+        result:
+          type: object
+          additionalProperties: true
+      additionalProperties: true
+  responses:
+    Unauthorized:
+      description: Missing or invalid api_key / club_secret.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  parameters:
+    ClubId:
+      name: club_id
+      in: path
+      required: true
+      description: The Virtuagym club ID.
+      schema:
+        type: integer
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: query
+      name: api_key
+      description: The club's API key, provisioned in the Virtuagym portal under System settings > Business info > Advanced.
+    clubSecretAuth:
+      type: apiKey
+      in: query
+      name: club_secret
+      description: The club secret, provisioned alongside the API key in the Virtuagym portal. Required for all v1 endpoints.

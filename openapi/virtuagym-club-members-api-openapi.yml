@@ -1,0 +1,366 @@
+openapi: 3.0.3
+info:
+  title: Virtuagym Public API (v1) Billing Club Members API
+  description: 'The Virtuagym Public API lets fitness businesses, health clubs, and partner integrations read and write club data programmatically - members, staff (employees), membership definitions and instances, member credits, invoices, visits (check-ins), events (classes) and their participants, and coaching workout assignments. This document models the current v1 club-scoped surface.
+
+    Access model: Virtuagym''s authoritative reference documentation is access-gated - you request access by emailing api@virtuagym.com with your GitHub username, and you provision an API key and Club secret in the Virtuagym portal under System settings > Business info > Advanced. The endpoints, methods, and query parameters below are grounded in Virtuagym''s publicly mirrored API wiki and in live host probes; request/response bodies are modeled honestly and marked with additionalProperties where the full field set is not published. Treat schema shapes as a starting point and reconcile against the official reference once access is granted.
+
+    Authentication: v1 endpoints authenticate with an `api_key` and a `club_secret`, both passed as query-string parameters, over HTTPS only. (Legacy v0 endpoints used HTTP Basic Auth and are deprecated; a separate OAuth 2.0 flow exists for end-user-context calls and is out of scope for the club-scoped v1 surface modeled here.)'
+  version: '1.0'
+  contact:
+    name: Virtuagym API Team
+    url: https://support.virtuagym.com/s/article/API-Link-To-Your-Website
+    email: api@virtuagym.com
+  license:
+    name: Proprietary
+    url: https://virtuagym.com
+servers:
+- url: https://api.virtuagym.com/api
+  description: Virtuagym Public API
+security:
+- apiKeyAuth: []
+  clubSecretAuth: []
+tags:
+- name: Club Members
+  description: Members of a club - list, retrieve, create, update, and activate.
+paths:
+  /v1/club/{club_id}/member:
+    parameters:
+    - $ref: '#/components/parameters/ClubId'
+    get:
+      operationId: listClubMembers
+      tags:
+      - Club Members
+      summary: List club members
+      description: Returns members of the club that have been created or edited since `sync_from`. Supports incremental sync and lookup filters.
+      parameters:
+      - $ref: '#/components/parameters/SyncFrom'
+      - $ref: '#/components/parameters/FromId'
+      - name: club_member_id
+        in: query
+        required: false
+        description: Filter by one or more internal Virtuagym club member IDs.
+        schema:
+          type: string
+      - name: email
+        in: query
+        required: false
+        description: Look up a member by email address.
+        schema:
+          type: string
+      - name: external_id
+        in: query
+        required: false
+        description: Look up a member by the external ID stored on the profile.
+        schema:
+          type: string
+      - name: rfid_tag
+        in: query
+        required: false
+        description: Look up a member by RFID / access tag.
+        schema:
+          type: string
+      - name: any_sub_club
+        in: query
+        required: false
+        description: Include members across sub-clubs.
+        schema:
+          type: boolean
+      - name: with
+        in: query
+        required: false
+        description: Comma-separated related resources to embed in the response.
+        schema:
+          type: string
+      responses:
+        '200':
+          description: A list of club members.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MemberListResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    put:
+      operationId: createClubMember
+      tags:
+      - Club Members
+      summary: Create a club member
+      description: Creates a new member in the club.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MemberInput'
+      responses:
+        '200':
+          description: The created member.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MemberResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /v1/club/{club_id}/member/{member_id}:
+    parameters:
+    - $ref: '#/components/parameters/ClubId'
+    - $ref: '#/components/parameters/MemberId'
+    get:
+      operationId: getClubMember
+      tags:
+      - Club Members
+      summary: Retrieve a club member
+      description: Returns the details of a specific member by internal Virtuagym ID.
+      parameters:
+      - name: with
+        in: query
+        required: false
+        description: Comma-separated related resources to embed in the response.
+        schema:
+          type: string
+      - name: any_sub_club
+        in: query
+        required: false
+        schema:
+          type: boolean
+      responses:
+        '200':
+          description: The requested member.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MemberResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    put:
+      operationId: updateClubMember
+      tags:
+      - Club Members
+      summary: Update a club member
+      description: Updates an existing member identified by internal Virtuagym ID.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MemberInput'
+      responses:
+        '200':
+          description: The updated member.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MemberResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /v1/club/{club_id}/member/create_or_update:
+    parameters:
+    - $ref: '#/components/parameters/ClubId'
+    put:
+      operationId: createOrUpdateClubMember
+      tags:
+      - Club Members
+      summary: Create or update a member by external ID
+      description: Creates a new member, or updates an existing one, matched on the `external_id` carried in the request body.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MemberInput'
+      responses:
+        '200':
+          description: The created or updated member.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MemberResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /v1/club/{club_id}/member/activate_user:
+    parameters:
+    - $ref: '#/components/parameters/ClubId'
+    post:
+      operationId: activateClubMemberUser
+      tags:
+      - Club Members
+      summary: Activate a member's user profile
+      description: Activates a member's Virtuagym user profile, or connects the member to an existing Virtuagym user profile.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        '200':
+          description: Activation result.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+components:
+  responses:
+    NotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Missing or invalid api_key / club_secret.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  schemas:
+    GenericResponse:
+      type: object
+      description: Standard Virtuagym envelope. The `result` object carries the resource; exact fields depend on the resource and are additive.
+      properties:
+        statusMessage:
+          type: string
+        statistics:
+          $ref: '#/components/schemas/Statistics'
+        result:
+          type: object
+          additionalProperties: true
+      additionalProperties: true
+    Member:
+      allOf:
+      - $ref: '#/components/schemas/MemberInput'
+      - type: object
+        properties:
+          id:
+            type: integer
+            description: Internal Virtuagym club member ID.
+          member_id:
+            type: integer
+          user_id:
+            type: integer
+          timestamp_edited:
+            type: integer
+            format: int64
+        additionalProperties: true
+    MemberInput:
+      type: object
+      description: Member payload. Confirmed common fields are modeled; the full schema is additive and should be reconciled against the official reference.
+      properties:
+        firstname:
+          type: string
+        lastname:
+          type: string
+        email:
+          type: string
+          format: email
+        gender:
+          type: string
+        birthday:
+          type: string
+        external_id:
+          type: string
+          description: Your external system identifier for this member.
+        phone:
+          type: string
+        address:
+          type: string
+        zip:
+          type: string
+        city:
+          type: string
+        country:
+          type: string
+      additionalProperties: true
+    MemberResponse:
+      type: object
+      properties:
+        statusMessage:
+          type: string
+        statistics:
+          $ref: '#/components/schemas/Statistics'
+        result:
+          $ref: '#/components/schemas/Member'
+      additionalProperties: true
+    Statistics:
+      type: object
+      description: Response metadata Virtuagym returns alongside result sets.
+      properties:
+        resultset_size:
+          type: integer
+        total_results:
+          type: integer
+        time_ms:
+          type: integer
+      additionalProperties: true
+    MemberListResponse:
+      type: object
+      properties:
+        statusMessage:
+          type: string
+        statistics:
+          $ref: '#/components/schemas/Statistics'
+        result:
+          type: array
+          items:
+            $ref: '#/components/schemas/Member'
+      additionalProperties: true
+    Error:
+      type: object
+      properties:
+        status:
+          type: integer
+        statusMessage:
+          type: string
+        result:
+          type: object
+          additionalProperties: true
+      additionalProperties: true
+  parameters:
+    MemberId:
+      name: member_id
+      in: path
+      required: true
+      description: The internal Virtuagym club member ID.
+      schema:
+        type: integer
+    ClubId:
+      name: club_id
+      in: path
+      required: true
+      description: The Virtuagym club ID.
+      schema:
+        type: integer
+    SyncFrom:
+      name: sync_from
+      in: query
+      required: false
+      description: Return only resources created or edited since this Unix timestamp in milliseconds.
+      schema:
+        type: integer
+        format: int64
+    FromId:
+      name: from_id
+      in: query
+      required: false
+      description: Cursor - return resources with an ID greater than this value, for paging.
+      schema:
+        type: integer
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: query
+      name: api_key
+      description: The club's API key, provisioned in the Virtuagym portal under System settings > Business info > Advanced.
+    clubSecretAuth:
+      type: apiKey
+      in: query
+      name: club_secret
+      description: The club secret, provisioned alongside the API key in the Virtuagym portal. Required for all v1 endpoints.

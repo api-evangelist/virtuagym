@@ -1,0 +1,208 @@
+openapi: 3.0.3
+info:
+  title: Virtuagym Public API (v1) Billing Visits API
+  description: 'The Virtuagym Public API lets fitness businesses, health clubs, and partner integrations read and write club data programmatically - members, staff (employees), membership definitions and instances, member credits, invoices, visits (check-ins), events (classes) and their participants, and coaching workout assignments. This document models the current v1 club-scoped surface.
+
+    Access model: Virtuagym''s authoritative reference documentation is access-gated - you request access by emailing api@virtuagym.com with your GitHub username, and you provision an API key and Club secret in the Virtuagym portal under System settings > Business info > Advanced. The endpoints, methods, and query parameters below are grounded in Virtuagym''s publicly mirrored API wiki and in live host probes; request/response bodies are modeled honestly and marked with additionalProperties where the full field set is not published. Treat schema shapes as a starting point and reconcile against the official reference once access is granted.
+
+    Authentication: v1 endpoints authenticate with an `api_key` and a `club_secret`, both passed as query-string parameters, over HTTPS only. (Legacy v0 endpoints used HTTP Basic Auth and are deprecated; a separate OAuth 2.0 flow exists for end-user-context calls and is out of scope for the club-scoped v1 surface modeled here.)'
+  version: '1.0'
+  contact:
+    name: Virtuagym API Team
+    url: https://support.virtuagym.com/s/article/API-Link-To-Your-Website
+    email: api@virtuagym.com
+  license:
+    name: Proprietary
+    url: https://virtuagym.com
+servers:
+- url: https://api.virtuagym.com/api
+  description: Virtuagym Public API
+security:
+- apiKeyAuth: []
+  clubSecretAuth: []
+tags:
+- name: Visits
+  description: Club visits - member check-in / attendance records.
+paths:
+  /v1/club/{club_id}/visits:
+    parameters:
+    - $ref: '#/components/parameters/ClubId'
+    get:
+      operationId: listVisits
+      tags:
+      - Visits
+      summary: List visits
+      description: Returns visit (check-in) records based on the supplied query parameters, such as new check-ins since `sync_from`.
+      parameters:
+      - $ref: '#/components/parameters/SyncFrom'
+      - $ref: '#/components/parameters/FromId'
+      - name: member_id
+        in: query
+        required: false
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: A list of visits.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericListResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    post:
+      operationId: createVisit
+      tags:
+      - Visits
+      summary: Create a visit
+      description: Creates a new visit (check-in) resource for a member.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VisitInput'
+      responses:
+        '200':
+          description: The created visit.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /v1/club/{club_id}/visits/{visit_id}:
+    parameters:
+    - $ref: '#/components/parameters/ClubId'
+    - name: visit_id
+      in: path
+      required: true
+      description: The visit ID.
+      schema:
+        type: string
+    get:
+      operationId: getVisit
+      tags:
+      - Visits
+      summary: Retrieve a visit
+      description: Returns the visit resource that corresponds to `visit_id`.
+      responses:
+        '200':
+          description: The requested visit.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+components:
+  responses:
+    NotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Missing or invalid api_key / club_secret.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  schemas:
+    GenericResponse:
+      type: object
+      description: Standard Virtuagym envelope. The `result` object carries the resource; exact fields depend on the resource and are additive.
+      properties:
+        statusMessage:
+          type: string
+        statistics:
+          $ref: '#/components/schemas/Statistics'
+        result:
+          type: object
+          additionalProperties: true
+      additionalProperties: true
+    GenericListResponse:
+      type: object
+      description: Standard Virtuagym envelope wrapping an array of resources in `result`.
+      properties:
+        statusMessage:
+          type: string
+        statistics:
+          $ref: '#/components/schemas/Statistics'
+        result:
+          type: array
+          items:
+            type: object
+            additionalProperties: true
+      additionalProperties: true
+    Statistics:
+      type: object
+      description: Response metadata Virtuagym returns alongside result sets.
+      properties:
+        resultset_size:
+          type: integer
+        total_results:
+          type: integer
+        time_ms:
+          type: integer
+      additionalProperties: true
+    VisitInput:
+      type: object
+      properties:
+        member_id:
+          type: integer
+        timestamp:
+          type: integer
+          format: int64
+          description: Unix timestamp of the check-in.
+        club_id:
+          type: integer
+      additionalProperties: true
+    Error:
+      type: object
+      properties:
+        status:
+          type: integer
+        statusMessage:
+          type: string
+        result:
+          type: object
+          additionalProperties: true
+      additionalProperties: true
+  parameters:
+    ClubId:
+      name: club_id
+      in: path
+      required: true
+      description: The Virtuagym club ID.
+      schema:
+        type: integer
+    SyncFrom:
+      name: sync_from
+      in: query
+      required: false
+      description: Return only resources created or edited since this Unix timestamp in milliseconds.
+      schema:
+        type: integer
+        format: int64
+    FromId:
+      name: from_id
+      in: query
+      required: false
+      description: Cursor - return resources with an ID greater than this value, for paging.
+      schema:
+        type: integer
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: query
+      name: api_key
+      description: The club's API key, provisioned in the Virtuagym portal under System settings > Business info > Advanced.
+    clubSecretAuth:
+      type: apiKey
+      in: query
+      name: club_secret
+      description: The club secret, provisioned alongside the API key in the Virtuagym portal. Required for all v1 endpoints.
