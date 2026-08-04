@@ -1,0 +1,26 @@
+{
+  "provider": "virtuagym",
+  "sources": [
+    "virtuagym-billing-api-openapi.yml",
+    "virtuagym-club-employees-api-openapi.yml",
+    "virtuagym-club-members-api-openapi.yml",
+    "virtuagym-coaching-api-openapi.yml",
+    "virtuagym-events-api-openapi.yml",
+    "virtuagym-memberships-api-openapi.yml",
+    "virtuagym-visits-api-openapi.yml"
+  ],
+  "outputs": [
+    "virtuagym-billing-api-openapi.yml",
+    "virtuagym-club-employees-api-openapi.yml",
+    "virtuagym-club-members-api-openapi.yml",
+    "virtuagym-coaching-api-openapi.yml",
+    "virtuagym-events-api-openapi.yml",
+    "virtuagym-memberships-api-openapi.yml",
+    "virtuagym-visits-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}
