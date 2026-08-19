@@ -1,0 +1,128 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Virtuagym Public API (v1) Billing API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "api_key",
+      "value": "{{api_key}}",
+      "placement": "query"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Billing",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List member credits",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.virtuagym.com/api/v1/club/:club_id/credit",
+            "params": [
+              {
+                "name": "club_id",
+                "value": "",
+                "type": "path",
+                "description": "The Virtuagym club ID."
+              },
+              {
+                "name": "member_id",
+                "value": "",
+                "type": "query",
+                "description": "The member whose credits to return."
+              },
+              {
+                "name": "sync_from",
+                "value": "",
+                "type": "query",
+                "description": "Return only resources created or edited since this Unix timestamp in milliseconds."
+              }
+            ]
+          },
+          "docs": "Returns the credit balance / entries of a member."
+        },
+        {
+          "info": {
+            "name": "Assign member credits",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.virtuagym.com/api/v1/club/:club_id/credit",
+            "params": [
+              {
+                "name": "club_id",
+                "value": "",
+                "type": "path",
+                "description": "The Virtuagym club ID."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Assigns or adds new credits to a member."
+        },
+        {
+          "info": {
+            "name": "Create an invoice",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.virtuagym.com/api/v1/club/:club_id/invoices",
+            "params": [
+              {
+                "name": "club_id",
+                "value": "",
+                "type": "path",
+                "description": "The Virtuagym club ID."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new invoice resource for the club."
+        },
+        {
+          "info": {
+            "name": "Retrieve an invoice",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.virtuagym.com/api/v1/club/:club_id/invoices/:invoice_id",
+            "params": [
+              {
+                "name": "club_id",
+                "value": "",
+                "type": "path",
+                "description": "The Virtuagym club ID."
+              },
+              {
+                "name": "invoice_id",
+                "value": "",
+                "type": "path",
+                "description": "The invoice ID."
+              }
+            ]
+          },
+          "docs": "Returns the invoice resource that corresponds to `invoice_id`."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

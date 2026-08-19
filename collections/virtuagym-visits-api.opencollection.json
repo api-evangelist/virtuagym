@@ -1,0 +1,110 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Virtuagym Public API (v1) Billing Visits API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "api_key",
+      "value": "{{api_key}}",
+      "placement": "query"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Visits",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List visits",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.virtuagym.com/api/v1/club/:club_id/visits",
+            "params": [
+              {
+                "name": "club_id",
+                "value": "",
+                "type": "path",
+                "description": "The Virtuagym club ID."
+              },
+              {
+                "name": "sync_from",
+                "value": "",
+                "type": "query",
+                "description": "Return only resources created or edited since this Unix timestamp in milliseconds."
+              },
+              {
+                "name": "from_id",
+                "value": "",
+                "type": "query",
+                "description": "Cursor - return resources with an ID greater than this value, for paging."
+              },
+              {
+                "name": "member_id",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Returns visit (check-in) records based on the supplied query parameters, such as new check-ins since `sync_from`."
+        },
+        {
+          "info": {
+            "name": "Create a visit",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.virtuagym.com/api/v1/club/:club_id/visits",
+            "params": [
+              {
+                "name": "club_id",
+                "value": "",
+                "type": "path",
+                "description": "The Virtuagym club ID."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new visit (check-in) resource for a member."
+        },
+        {
+          "info": {
+            "name": "Retrieve a visit",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.virtuagym.com/api/v1/club/:club_id/visits/:visit_id",
+            "params": [
+              {
+                "name": "club_id",
+                "value": "",
+                "type": "path",
+                "description": "The Virtuagym club ID."
+              },
+              {
+                "name": "visit_id",
+                "value": "",
+                "type": "path",
+                "description": "The visit ID."
+              }
+            ]
+          },
+          "docs": "Returns the visit resource that corresponds to `visit_id`."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

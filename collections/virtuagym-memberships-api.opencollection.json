@@ -1,0 +1,100 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Virtuagym Public API (v1) Billing Memberships API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "api_key",
+      "value": "{{api_key}}",
+      "placement": "query"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Memberships",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List membership definitions",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.virtuagym.com/api/v1/club/:club_id/membership/definition",
+            "params": [
+              {
+                "name": "club_id",
+                "value": "",
+                "type": "path",
+                "description": "The Virtuagym club ID."
+              },
+              {
+                "name": "sync_from",
+                "value": "",
+                "type": "query",
+                "description": "Return only resources created or edited since this Unix timestamp in milliseconds."
+              },
+              {
+                "name": "max_results",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of results to return in a page."
+              }
+            ]
+          },
+          "docs": "Returns the membership definitions (plans / products) configured for the club."
+        },
+        {
+          "info": {
+            "name": "List membership instances",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.virtuagym.com/api/v1/club/:club_id/membership/instance",
+            "params": [
+              {
+                "name": "club_id",
+                "value": "",
+                "type": "path",
+                "description": "The Virtuagym club ID."
+              },
+              {
+                "name": "sync_from",
+                "value": "",
+                "type": "query",
+                "description": "Return only resources created or edited since this Unix timestamp in milliseconds."
+              },
+              {
+                "name": "from_id",
+                "value": "",
+                "type": "query",
+                "description": "Cursor - return resources with an ID greater than this value, for paging."
+              },
+              {
+                "name": "max_results",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of results to return in a page."
+              },
+              {
+                "name": "member_id",
+                "value": "",
+                "type": "query",
+                "description": "Filter instances by member."
+              }
+            ]
+          },
+          "docs": "Returns an array of membership instances (a member's enrollment in a membership definition) for the club. Supports incremental sync via `sync_from` or cursor paging via `from_id`."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

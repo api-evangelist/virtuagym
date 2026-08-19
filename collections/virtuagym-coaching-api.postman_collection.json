@@ -1,0 +1,229 @@
+{
+  "item": [
+    {
+      "id": "3020a83b-41eb-46c4-a975-436cb5a305c9",
+      "name": "Coaching",
+      "description": {
+        "content": "Assign coaching workout plans to members.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "8512f71a-59c0-40f1-a809-163087647732",
+          "name": "Assign a workout to a member",
+          "request": {
+            "name": "Assign a workout to a member",
+            "description": {
+              "content": "Assigns a coaching workout / training plan to a club member. The body specifies the plan and the member plus scheduling details (weekdays, weeks, start date).",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "club",
+                ":club_id",
+                "member",
+                "workouts"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "club_id",
+                  "description": "(Required) The Virtuagym club ID."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"plan_id\": \"<integer>\",\n  \"user_id\": \"<integer>\",\n  \"weekdays\": [\n    \"<integer>\",\n    \"<integer>\"\n  ],\n  \"weeks\": \"<integer>\",\n  \"start_date\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "ad6823dc-9d97-4e3e-b101-f9f9323d1823",
+              "name": "The workout assignment result.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "club",
+                    ":club_id",
+                    "member",
+                    "workouts"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "api_key",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "club_id",
+                      "description": "(Required) The Virtuagym club ID."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"plan_id\": \"<integer>\",\n  \"user_id\": \"<integer>\",\n  \"weekdays\": [\n    \"<integer>\",\n    \"<integer>\"\n  ],\n  \"weeks\": \"<integer>\",\n  \"start_date\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"statusMessage\": \"string\",\n  \"statistics\": {\n    \"resultset_size\": 3370,\n    \"total_results\": 3967,\n    \"time_ms\": 2431\n  },\n  \"result\": {\n    \"key_0\": 3883,\n    \"key_1\": 6355\n  },\n  \"key_0\": 2105,\n  \"key_1\": 3985.296613875803,\n  \"key_2\": 9791\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "999fa6c1-563e-4ab2-9279-31d724425def",
+              "name": "Missing or invalid api_key / club_secret.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "club",
+                    ":club_id",
+                    "member",
+                    "workouts"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "api_key",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "club_id",
+                      "description": "(Required) The Virtuagym club ID."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"plan_id\": \"<integer>\",\n  \"user_id\": \"<integer>\",\n  \"weekdays\": [\n    \"<integer>\",\n    \"<integer>\"\n  ],\n  \"weeks\": \"<integer>\",\n  \"start_date\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 3072,\n  \"statusMessage\": \"string\",\n  \"result\": {\n    \"key_0\": true,\n    \"key_1\": true\n  },\n  \"key_0\": \"string\",\n  \"key_1\": true,\n  \"key_2\": 4675.984008455748\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.virtuagym.com/api",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "api_key"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "query"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "cd25fafc-6b23-4099-9443-dca51220a8f9",
+    "name": "Virtuagym Public API (v1) Billing Coaching API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Virtuagym Public API lets fitness businesses, health clubs, and partner integrations read and write club data programmatically - members, staff (employees), membership definitions and instances, member credits, invoices, visits (check-ins), events (classes) and their participants, and coaching workout assignments. This document models the current v1 club-scoped surface.\nAccess model: Virtuagym's authoritative reference documentation is access-gated - you request access by emailing api@virtuagym.com with your GitHub username, and you provision an API key and Club secret in the Virtuagym portal under System settings > Business info > Advanced. The endpoints, methods, and query parameters below are grounded in Virtuagym's publicly mirrored API wiki and in live host probes; request/response bodies are modeled honestly and marked with additionalProperties where the full field set is not published. Treat schema shapes as a starting point and reconcile against the official reference once access is granted.\nAuthentication: v1 endpoints authenticate with an `api_key` and a `club_secret`, both passed as query-string parameters, over HTTPS only. (Legacy v0 endpoints used HTTP Basic Auth and are deprecated; a separate OAuth 2.0 flow exists for end-user-context calls and is out of scope for the club-scoped v1 surface modeled here.)\n\nContact Support:\n Name: Virtuagym API Team\n Email: api@virtuagym.com",
+      "type": "text/plain"
+    }
+  }
+}

@@ -1,0 +1,230 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Virtuagym Public API (v1) Billing Events API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "api_key",
+      "value": "{{api_key}}",
+      "placement": "query"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Events",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List club events",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.virtuagym.com/api/v1/club/:club_id/events",
+            "params": [
+              {
+                "name": "club_id",
+                "value": "",
+                "type": "path",
+                "description": "The Virtuagym club ID."
+              },
+              {
+                "name": "sync_from",
+                "value": "",
+                "type": "query",
+                "description": "Return only resources created or edited since this Unix timestamp in milliseconds."
+              },
+              {
+                "name": "schedule_id",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "timestamp_start",
+                "value": "",
+                "type": "query",
+                "description": "Unix timestamp (seconds) lower bound of the event window."
+              },
+              {
+                "name": "timestamp_end",
+                "value": "",
+                "type": "query",
+                "description": "Unix timestamp (seconds) upper bound of the event window."
+              },
+              {
+                "name": "member_id",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Returns club events (scheduled classes / sessions). Filterable by schedule, member, and a start/end timestamp window."
+        },
+        {
+          "info": {
+            "name": "Retrieve an event",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.virtuagym.com/api/v1/club/:club_id/events/:event_id",
+            "params": [
+              {
+                "name": "club_id",
+                "value": "",
+                "type": "path",
+                "description": "The Virtuagym club ID."
+              },
+              {
+                "name": "event_id",
+                "value": "",
+                "type": "path",
+                "description": "The event ID."
+              },
+              {
+                "name": "sync_from",
+                "value": "",
+                "type": "query",
+                "description": "Return only resources created or edited since this Unix timestamp in milliseconds."
+              }
+            ]
+          },
+          "docs": "Returns the event resource that corresponds to `event_id`."
+        },
+        {
+          "info": {
+            "name": "List event participants",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.virtuagym.com/api/v1/club/:club_id/eventparticipants",
+            "params": [
+              {
+                "name": "club_id",
+                "value": "",
+                "type": "path",
+                "description": "The Virtuagym club ID."
+              },
+              {
+                "name": "event_id",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "sync_from",
+                "value": "",
+                "type": "query",
+                "description": "Return only resources created or edited since this Unix timestamp in milliseconds."
+              }
+            ]
+          },
+          "docs": "Returns participants (bookings) for events, filterable by `event_id` and `sync_from`."
+        },
+        {
+          "info": {
+            "name": "Add an event participant",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.virtuagym.com/api/v1/club/:club_id/eventparticipants",
+            "params": [
+              {
+                "name": "club_id",
+                "value": "",
+                "type": "path",
+                "description": "The Virtuagym club ID."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Books a member into an event (creates an event participant)."
+        },
+        {
+          "info": {
+            "name": "Update an event participant",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.virtuagym.com/api/v1/club/:club_id/eventparticipants",
+            "params": [
+              {
+                "name": "club_id",
+                "value": "",
+                "type": "path",
+                "description": "The Virtuagym club ID."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates an existing event participant (booking)."
+        },
+        {
+          "info": {
+            "name": "Retrieve an event participant",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.virtuagym.com/api/v1/club/:club_id/eventparticipants/:event_participant_id",
+            "params": [
+              {
+                "name": "club_id",
+                "value": "",
+                "type": "path",
+                "description": "The Virtuagym club ID."
+              },
+              {
+                "name": "event_participant_id",
+                "value": "",
+                "type": "path",
+                "description": "The event participant ID."
+              }
+            ]
+          },
+          "docs": "Returns the event participant that corresponds to the given ID."
+        },
+        {
+          "info": {
+            "name": "Remove an event participant",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.virtuagym.com/api/v1/club/:club_id/eventparticipants/:event_participant_id",
+            "params": [
+              {
+                "name": "club_id",
+                "value": "",
+                "type": "path",
+                "description": "The Virtuagym club ID."
+              },
+              {
+                "name": "event_participant_id",
+                "value": "",
+                "type": "path",
+                "description": "The event participant ID."
+              }
+            ]
+          },
+          "docs": "Cancels a booking by deleting the event participant."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

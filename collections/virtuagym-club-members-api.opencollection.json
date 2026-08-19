@@ -1,0 +1,227 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Virtuagym Public API (v1) Billing Club Members API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "api_key",
+      "value": "{{api_key}}",
+      "placement": "query"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Club Members",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List club members",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.virtuagym.com/api/v1/club/:club_id/member",
+            "params": [
+              {
+                "name": "club_id",
+                "value": "",
+                "type": "path",
+                "description": "The Virtuagym club ID."
+              },
+              {
+                "name": "sync_from",
+                "value": "",
+                "type": "query",
+                "description": "Return only resources created or edited since this Unix timestamp in milliseconds."
+              },
+              {
+                "name": "from_id",
+                "value": "",
+                "type": "query",
+                "description": "Cursor - return resources with an ID greater than this value, for paging."
+              },
+              {
+                "name": "club_member_id",
+                "value": "",
+                "type": "query",
+                "description": "Filter by one or more internal Virtuagym club member IDs."
+              },
+              {
+                "name": "email",
+                "value": "",
+                "type": "query",
+                "description": "Look up a member by email address."
+              },
+              {
+                "name": "external_id",
+                "value": "",
+                "type": "query",
+                "description": "Look up a member by the external ID stored on the profile."
+              },
+              {
+                "name": "rfid_tag",
+                "value": "",
+                "type": "query",
+                "description": "Look up a member by RFID / access tag."
+              },
+              {
+                "name": "any_sub_club",
+                "value": "",
+                "type": "query",
+                "description": "Include members across sub-clubs."
+              },
+              {
+                "name": "with",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated related resources to embed in the response."
+              }
+            ]
+          },
+          "docs": "Returns members of the club that have been created or edited since `sync_from`. Supports incremental sync and lookup filters."
+        },
+        {
+          "info": {
+            "name": "Create a club member",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.virtuagym.com/api/v1/club/:club_id/member",
+            "params": [
+              {
+                "name": "club_id",
+                "value": "",
+                "type": "path",
+                "description": "The Virtuagym club ID."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new member in the club."
+        },
+        {
+          "info": {
+            "name": "Retrieve a club member",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.virtuagym.com/api/v1/club/:club_id/member/:member_id",
+            "params": [
+              {
+                "name": "club_id",
+                "value": "",
+                "type": "path",
+                "description": "The Virtuagym club ID."
+              },
+              {
+                "name": "member_id",
+                "value": "",
+                "type": "path",
+                "description": "The internal Virtuagym club member ID."
+              },
+              {
+                "name": "with",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated related resources to embed in the response."
+              },
+              {
+                "name": "any_sub_club",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Returns the details of a specific member by internal Virtuagym ID."
+        },
+        {
+          "info": {
+            "name": "Update a club member",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.virtuagym.com/api/v1/club/:club_id/member/:member_id",
+            "params": [
+              {
+                "name": "club_id",
+                "value": "",
+                "type": "path",
+                "description": "The Virtuagym club ID."
+              },
+              {
+                "name": "member_id",
+                "value": "",
+                "type": "path",
+                "description": "The internal Virtuagym club member ID."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates an existing member identified by internal Virtuagym ID."
+        },
+        {
+          "info": {
+            "name": "Create or update a member by external ID",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.virtuagym.com/api/v1/club/:club_id/member/create_or_update",
+            "params": [
+              {
+                "name": "club_id",
+                "value": "",
+                "type": "path",
+                "description": "The Virtuagym club ID."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new member, or updates an existing one, matched on the `external_id` carried in the request body."
+        },
+        {
+          "info": {
+            "name": "Activate a member's user profile",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.virtuagym.com/api/v1/club/:club_id/member/activate_user",
+            "params": [
+              {
+                "name": "club_id",
+                "value": "",
+                "type": "path",
+                "description": "The Virtuagym club ID."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Activates a member's Virtuagym user profile, or connects the member to an existing Virtuagym user profile."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

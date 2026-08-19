@@ -1,0 +1,437 @@
+{
+  "item": [
+    {
+      "id": "6462bf7d-62b0-4d4f-ac5c-0ab9449d2e78",
+      "name": "Memberships",
+      "description": {
+        "content": "Membership definitions (plans) and membership instances (enrollments).",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "8e79c38c-8298-40c2-9d8b-61f584c2d330",
+          "name": "List membership definitions",
+          "request": {
+            "name": "List membership definitions",
+            "description": {
+              "content": "Returns the membership definitions (plans / products) configured for the club.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "club",
+                ":club_id",
+                "membership",
+                "definition"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "sync_from",
+                  "value": "<long>",
+                  "description": "Return only resources created or edited since this Unix timestamp in milliseconds."
+                },
+                {
+                  "disabled": false,
+                  "key": "max_results",
+                  "value": "<integer>",
+                  "description": "Maximum number of results to return in a page."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "club_id",
+                  "description": "(Required) The Virtuagym club ID."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "6466f61a-d76a-4452-b11a-d79c063ded63",
+              "name": "A list of membership definitions.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "club",
+                    ":club_id",
+                    "membership",
+                    "definition"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "sync_from",
+                      "value": "<long>"
+                    },
+                    {
+                      "key": "max_results",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "api_key",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "club_id",
+                      "description": "(Required) The Virtuagym club ID."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"statusMessage\": \"string\",\n  \"statistics\": {\n    \"resultset_size\": 1730,\n    \"total_results\": 7856,\n    \"time_ms\": 6306,\n    \"key_0\": 4756\n  },\n  \"result\": [\n    {\n      \"key_0\": \"string\",\n      \"key_1\": true,\n      \"key_2\": 1535.5350809958434\n    },\n    {\n      \"key_0\": 5322.374776960798,\n      \"key_1\": true\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "dcc0aa15-21e8-4274-83b8-3163d0347e82",
+              "name": "Missing or invalid api_key / club_secret.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "club",
+                    ":club_id",
+                    "membership",
+                    "definition"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "sync_from",
+                      "value": "<long>"
+                    },
+                    {
+                      "key": "max_results",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "api_key",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "club_id",
+                      "description": "(Required) The Virtuagym club ID."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 5116,\n  \"statusMessage\": \"string\",\n  \"result\": {\n    \"key_0\": \"string\",\n    \"key_1\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "43223c68-954a-499c-b212-02d3cbfc39dd",
+          "name": "List membership instances",
+          "request": {
+            "name": "List membership instances",
+            "description": {
+              "content": "Returns an array of membership instances (a member's enrollment in a membership definition) for the club. Supports incremental sync via `sync_from` or cursor paging via `from_id`.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "club",
+                ":club_id",
+                "membership",
+                "instance"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "sync_from",
+                  "value": "<long>",
+                  "description": "Return only resources created or edited since this Unix timestamp in milliseconds."
+                },
+                {
+                  "disabled": false,
+                  "key": "from_id",
+                  "value": "<integer>",
+                  "description": "Cursor - return resources with an ID greater than this value, for paging."
+                },
+                {
+                  "disabled": false,
+                  "key": "max_results",
+                  "value": "<integer>",
+                  "description": "Maximum number of results to return in a page."
+                },
+                {
+                  "disabled": false,
+                  "key": "member_id",
+                  "value": "<integer>",
+                  "description": "Filter instances by member."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "club_id",
+                  "description": "(Required) The Virtuagym club ID."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "2c5066fb-194c-4f36-bbc6-19f1ba419ac7",
+              "name": "A list of membership instances.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "club",
+                    ":club_id",
+                    "membership",
+                    "instance"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "sync_from",
+                      "value": "<long>"
+                    },
+                    {
+                      "key": "from_id",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "max_results",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "member_id",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "api_key",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "club_id",
+                      "description": "(Required) The Virtuagym club ID."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"statusMessage\": \"string\",\n  \"statistics\": {\n    \"resultset_size\": 2486,\n    \"total_results\": 891,\n    \"time_ms\": 7604,\n    \"key_0\": true,\n    \"key_1\": 487,\n    \"key_2\": \"string\",\n    \"key_3\": \"string\",\n    \"key_4\": 1642.9652743455613\n  },\n  \"result\": [\n    {\n      \"key_0\": true,\n      \"key_1\": 9676,\n      \"key_2\": \"string\"\n    },\n    {\n      \"key_0\": true,\n      \"key_1\": \"string\",\n      \"key_2\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "34a9aac3-e267-4a10-b354-c868d4c22da9",
+              "name": "Missing or invalid api_key / club_secret.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "club",
+                    ":club_id",
+                    "membership",
+                    "instance"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "sync_from",
+                      "value": "<long>"
+                    },
+                    {
+                      "key": "from_id",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "max_results",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "member_id",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "api_key",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "club_id",
+                      "description": "(Required) The Virtuagym club ID."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 5116,\n  \"statusMessage\": \"string\",\n  \"result\": {\n    \"key_0\": \"string\",\n    \"key_1\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.virtuagym.com/api",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "api_key"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "query"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "eb96a24d-d58a-4993-a399-a9e379b6e234",
+    "name": "Virtuagym Public API (v1) Billing Memberships API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Virtuagym Public API lets fitness businesses, health clubs, and partner integrations read and write club data programmatically - members, staff (employees), membership definitions and instances, member credits, invoices, visits (check-ins), events (classes) and their participants, and coaching workout assignments. This document models the current v1 club-scoped surface.\nAccess model: Virtuagym's authoritative reference documentation is access-gated - you request access by emailing api@virtuagym.com with your GitHub username, and you provision an API key and Club secret in the Virtuagym portal under System settings > Business info > Advanced. The endpoints, methods, and query parameters below are grounded in Virtuagym's publicly mirrored API wiki and in live host probes; request/response bodies are modeled honestly and marked with additionalProperties where the full field set is not published. Treat schema shapes as a starting point and reconcile against the official reference once access is granted.\nAuthentication: v1 endpoints authenticate with an `api_key` and a `club_secret`, both passed as query-string parameters, over HTTPS only. (Legacy v0 endpoints used HTTP Basic Auth and are deprecated; a separate OAuth 2.0 flow exists for end-user-context calls and is out of scope for the club-scoped v1 surface modeled here.)\n\nContact Support:\n Name: Virtuagym API Team\n Email: api@virtuagym.com",
+      "type": "text/plain"
+    }
+  }
+}

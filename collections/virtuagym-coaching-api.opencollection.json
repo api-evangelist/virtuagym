@@ -1,0 +1,49 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Virtuagym Public API (v1) Billing Coaching API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "api_key",
+      "value": "{{api_key}}",
+      "placement": "query"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Coaching",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Assign a workout to a member",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.virtuagym.com/api/v1/club/:club_id/member/workouts",
+            "params": [
+              {
+                "name": "club_id",
+                "value": "",
+                "type": "path",
+                "description": "The Virtuagym club ID."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Assigns a coaching workout / training plan to a club member. The body specifies the plan and the member plus scheduling details (weekdays, weeks, start date)."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

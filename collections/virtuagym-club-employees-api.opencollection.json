@@ -1,0 +1,134 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Virtuagym Public API (v1) Billing Club Employees API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "api_key",
+      "value": "{{api_key}}",
+      "placement": "query"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Club Employees",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List club employees",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.virtuagym.com/api/v1/club/:club_id/employee",
+            "params": [
+              {
+                "name": "club_id",
+                "value": "",
+                "type": "path",
+                "description": "The Virtuagym club ID."
+              },
+              {
+                "name": "sync_from",
+                "value": "",
+                "type": "query",
+                "description": "Return only resources created or edited since this Unix timestamp in milliseconds."
+              },
+              {
+                "name": "from_id",
+                "value": "",
+                "type": "query",
+                "description": "Cursor - return resources with an ID greater than this value, for paging."
+              }
+            ]
+          },
+          "docs": "Returns employees of the club that have been edited since `sync_from`."
+        },
+        {
+          "info": {
+            "name": "Create a club employee",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.virtuagym.com/api/v1/club/:club_id/employee",
+            "params": [
+              {
+                "name": "club_id",
+                "value": "",
+                "type": "path",
+                "description": "The Virtuagym club ID."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates and returns a new employee."
+        },
+        {
+          "info": {
+            "name": "Retrieve a club employee",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.virtuagym.com/api/v1/club/:club_id/employee/:employee_id",
+            "params": [
+              {
+                "name": "club_id",
+                "value": "",
+                "type": "path",
+                "description": "The Virtuagym club ID."
+              },
+              {
+                "name": "employee_id",
+                "value": "",
+                "type": "path",
+                "description": "The internal Virtuagym employee ID."
+              }
+            ]
+          },
+          "docs": "Returns a specific employee of the club."
+        },
+        {
+          "info": {
+            "name": "Update a club employee",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.virtuagym.com/api/v1/club/:club_id/employee/:employee_id",
+            "params": [
+              {
+                "name": "club_id",
+                "value": "",
+                "type": "path",
+                "description": "The Virtuagym club ID."
+              },
+              {
+                "name": "employee_id",
+                "value": "",
+                "type": "path",
+                "description": "The internal Virtuagym employee ID."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates and returns the employee."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
