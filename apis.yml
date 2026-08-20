@@ -38,6 +38,16 @@ tags:
 - Fitness Software
 - Wellness
 - Scheduling
+- Software-as-a-Service
+tags_raw:
+- Fitness
+- Health Club Management
+- Gym Management
+- Coaching
+- Membership Management
+- Fitness Software
+- Wellness
+- Scheduling
 - SaaS
 created: '2026-07-12'
 modified: '2026-07-12'
@@ -181,6 +191,8 @@ apis:
   humanURL: https://support.virtuagym.com/s/article/API-Link-To-Your-Website
   baseURL: https://api.virtuagym.com/api
   tags:
+  - Event
+  tags_raw:
   - Events
   properties:
   - type: OpenAPI
