@@ -15,6 +15,18 @@ description: >-
   passed as query parameters over HTTPS. Authoritative reference documentation is
   access-gated (request via api@virtuagym.com); the endpoints modeled here are
   grounded in Virtuagym's publicly mirrored API wiki and live host probes.
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: true
+  label: Hosted service · you call their endpoint
+  confidence: high
+  source:
+  - openapi
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 accessModel:
   pricing: paid
   onboarding: self-serve
