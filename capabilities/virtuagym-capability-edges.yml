@@ -1,0 +1,37 @@
+slug: virtuagym
+provider: Virtuagym
+generated_by: planning/capability-mapping/scripts/classify_capabilities.py
+model: claude-opus-5
+frame:
+- Education
+min_confidence: 0.7
+capability_model:
+  source: https://github.com/vincentmakes/turbo-ea-capabilities
+  license: CC-BY-4.0
+  attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
+    CC BY 4.0
+  notice: NOTICE
+edge_count: 2
+edges:
+- tag: Club Members
+  spec_file: virtuagym-club-members-api-openapi.yml
+  capability_id: BC-420.10
+  capability_id_l1: BC-420
+  capability_name: Customer Data Management
+  confidence: 0.78
+  evidence: createOrUpdateClubMember  Create or update a member by external ID; schemas MemberInput, Member,
+    MemberResponse
+  reason: Members are the club's customers; the operations are create/read/update of member master records
+    including upsert by external ID and activation of the user profile — customer data management, not
+    membership commercial terms (that is the Memberships tag).
+- tag: Club Employees
+  spec_file: virtuagym-club-employees-api-openapi.yml
+  capability_id: BC-300.70
+  capability_id_l1: BC-300
+  capability_name: HR Operations Management
+  confidence: 0.7
+  evidence: GET /v1/club/{club_id}/employee  listClubEmployees  List club employees; PUT ... createClubEmployee  Create
+    a club employee
+  reason: CRUD over staff/employee records for a club — maintenance of employee master records, i.e. HR
+    Operations. No pay, benefits or recruiting surface, so the narrower records sub-capability is the
+    best fit.

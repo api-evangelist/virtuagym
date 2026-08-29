@@ -299,6 +299,9 @@ apis:
     url: >-
       https://github.com/anokabb/virtuagym-public-api/blob/main/documentation/v1/Club-Member-Workouts.md
 common:
+- type: CapabilityMap
+  url: capabilities/virtuagym-capability-edges.yml
+  name: Virtuagym Business Capability Map
 - type: AgenticAccess
   url: agentic-access/virtuagym-agentic-access.yml
 - type: DomainSecurity
