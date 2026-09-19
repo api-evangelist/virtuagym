@@ -238,6 +238,8 @@ apis:
   humanURL: https://support.virtuagym.com/s/article/API-Link-To-Your-Website
   baseURL: https://api.virtuagym.com/api
   tags:
+  - Membership
+  tags_raw:
   - Memberships
   properties:
   - type: OpenAPI
